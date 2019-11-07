@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.learn.mapper.article.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.learn.PoJo.article.Article">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="article_type_id" jdbcType="VARCHAR" property="articleTypeId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="modifytime" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="content" jdbcType="LONGVARBINARY" property="content" />
+    <result column="text" jdbcType="LONGVARCHAR" property="text" />
+    <result column="html" jdbcType="LONGVARBINARY" property="html" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, article_type_id, title, modifytime, user_id, content, text, html
+  </sql>
+  <!--<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from article
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.learn.PoJo.article.ArticleWithBLOBs">
+    insert into article (id, article_type_id, title, 
+      modifytime, user_id, content, 
+      text, html)
+    values (#{id,jdbcType=VARCHAR}, #{articleTypeId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{modifytime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARBINARY}, 
+      #{text,jdbcType=LONGVARCHAR}, #{html,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.learn.PoJo.article.ArticleWithBLOBs">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="articleTypeId != null">
+        article_type_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="modifytime != null">
+        modifytime,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+      <if test="html != null">
+        html,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="articleTypeId != null">
+        #{articleTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="html != null">
+        #{html,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.learn.PoJo.article.ArticleWithBLOBs">
+    update article
+    <set>
+      <if test="articleTypeId != null">
+        article_type_id = #{articleTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null">
+        modifytime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="text != null">
+        text = #{text,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="html != null">
+        html = #{html,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.learn.PoJo.article.ArticleWithBLOBs">
+    update article
+    set article_type_id = #{articleTypeId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARBINARY},
+      text = #{text,jdbcType=LONGVARCHAR},
+      html = #{html,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.learn.PoJo.article.Article">
+    update article
+    set article_type_id = #{articleTypeId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>-->
+</mapper>

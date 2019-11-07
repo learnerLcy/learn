@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8">
+    <title>文章类型管理</title>
+    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+</head>
+<body>
+<!--<table id="permissionTable" class="layui-table" lay-filter="permissionTable"></table>-->
+<table id="menuTable" lay-filter="test"></table>
+<!--头部按钮-->
+<script type="text/html" id="menuToolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addCategory">增加</button>
+        <button class="layui-btn layui-btn-sm" lay-event="delCategory">批量删除</button>
+    </div>
+</script>
+<!--操作栏-->
+<script type="text/html" id="operateBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+<script src="${rc.contextPath}/layui/layui.all.js"></script>
+<script src="${rc.contextPath}/common/public-js.js"></script>
+<script type="text/javascript" th:inline="none">//不加th:inline="none"，页面会报错，吧[[]]认成自定义的
+$(function () {
+    //初始化table列表
+    var cols = [[ //表头
+        {type: 'checkbox', fixed: 'left'}
+        ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
+        ,{field: 'category',treeNodes: true, title: '文章分类名称'}
+        ,{field: 'description', title: '文章类型描述'}
+        ,{field: 'category_pid', title: '父类型'}
+        ,{fixed: 'right', title:'操作', toolbar: '#operateBar', width:150} //操作栏
+    ]];
+
+
+    treeTable.treeColIndex = 2;
+    treeTable.treeSpid = "ROOT";
+    treeTable.treeIdName = "id";
+    treeTable.treePidName = "category_pid";
+    treeTable.createTable("#menuTable",'${rc.contextPath}/article/category/getCategoryList','#menuToolbar','文章分类',cols,afterTreeTableLoadSuccess);
+})
+//添加事件
+function addCategory(){
+    //跳转添加页面
+    openLayer("增加分类","${rc.contextPath}/article/category/addCategoryPage","700","500");
+}
+function editCategory(obj){
+    openLayer("编辑分类","${rc.contextPath}/article/category/editCategoryPage?id="+obj.data.id,"700","500");
+}
+
+/**
+ * 需要table加载之后执行的方法写在回调方法里
+ * 直接写在js里会出现异步加载添加不上事件的问题
+ */
+function afterTreeTableLoadSuccess(){
+    //头工具栏事件
+    treeTable.table.on('toolbar(test)', function(obj){
+        var checkStatus = treeTable.table.checkStatus(obj.config.id);
+        switch(obj.event){
+            case 'addCategory':
+                addCategory();
+                break;
+            case 'delCategory':
+                delCategory();
+                break;
+        };
+    });
+    //监听行工具事件
+    treeTable.table.on('tool(test)', function(obj){
+        var data = obj.data;
+        if(obj.event === 'del'){
+            layer.confirm('真的删除行么', function(index){
+                obj.del();
+                layer.close(index);
+            });
+        } else if(obj.event === 'edit'){
+            editCategory(obj);
+        }
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Simple example - Editor.md examples</title>
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+        <link rel="stylesheet" href="${rc.contextPath}/webjars/editor.md/1.5.0/css/editormd.css">
+    </head>
+    <body>
+        <!-- 构造form表单，以便提交数据-->
+        <form id="formBlog"  method="post" action="${rc.contextPath}/article/editArticle" class="layui-form" style="width: 90%;margin: 10px auto 10px">
+            <!--编辑md信息-->
+            <div class="layui-row">
+                <div class="layui-col-md7">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文章标题</label>
+                        <div class="layui-input-block">
+                            <b><input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" value="${articleInfo.title!''}"></b>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文章类型</label>
+                        <div class="layui-input-block">
+                            <b><input type="text" id="articleTypeName" name="articleTypeName" required  lay-verify="required" placeholder="请选择类型" autocomplete="off" class="layui-input" onclick="selectArticleType();" value="${articleInfo.articleTypeId!''}" readonly></b>
+                            <input type="hidden" id="articleTypeId" name="articleTypeId" value="${articleInfo.articleTypeId!''}">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md1">
+                    <button type="button" id="btn-blog-save" class="layui-btn pull-right">保存</button>
+                </div>
+            </div>
+            <textarea  id="content"name="content" value="" style="display: none;"></textarea>
+            <textarea  id="html" name="html" value="" style="display: none;"></textarea>
+        </form>
+
+        <!-- md文件编辑器编辑区域 后续js中会使用到 -->
+        <div class="editormd" id="test-editormd">
+            <textarea class="editormd-markdown-textarea" name="markdown-doc" id="markdown-doc">${articleInfo.contentStr!''}</textarea>
+            <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
+            <textarea class="editormd-html-textarea" name="markdown-html"></textarea>
+        </div>
+
+
+        <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+        <script src="${rc.contextPath}/jquery-3.3.1/jquery.form.js"></script>
+        <script src="${rc.contextPath}/layui/layui.all.js"></script>
+        <script src="${rc.contextPath}/common/public-js.js"></script>
+        <!--md编辑器需要的js-->
+        <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/lib/marked.min.js"></script>
+        <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/lib/prettify.min.js"></script>
+        <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/lib/raphael.min.js"></script>
+        <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/lib/underscore.min.js"></script>
+        <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/lib/sequence-diagram.min.js"></script>
+        <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/lib/flowchart.min.js"></script>
+        <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/lib/jquery.flowchart.min.js"></script>
+        <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/editormd.js"></script>
+        <script type="text/javascript">
+			var md_edit;
+            $(function() {
+                //初始化md编辑器
+                md_edit = editormd("test-editormd", {
+                    width   : "90%",
+                    height  : 520,
+                    syncScrolling : "single",
+                    path    : "${rc.contextPath}/webjars/editor.md/1.5.0/lib/",
+                    imageUpload: true,
+                    imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                    imageUploadURL: "${rc.contextPath}/file/fileUpload_Md?fold=/markdown/images/",
+                    //previewTheme : "dark",//使用dark主题
+                    //这个配置在simple.html中并没有，但是为了能够提交表单，使用这个配置可以让构造出来的HTML代码直接在第二个隐藏的textarea域中，方便post提交表单。
+                    saveHTMLToTextarea : true
+                });
+
+                //保存事件
+                $("#btn-blog-save").click(function () {
+                    $("#title").val($("#bt").val());
+                    $("#content").val(md_edit.getMarkdown());//md格式内容，使用md的js获取
+                    $("#html").val(md_edit.getHTML());
+                    $("#formBlog").ajaxSubmit({
+                        success : function(data) {
+                            if(data.success){
+                                layui.layer.confirm("保存成功", function (index) {
+                                    window.location.href = "${rc.contextPath}/article/showArticlePage";
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8">
+    <title>选择弹窗</title>
+    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+    <link rel="stylesheet" href="${rc.contextPath}/webjars/zTree/3.5.37/css/zTreeStyle/zTreeStyle.css">
+</head>
+<body>
+    <form class="layui-form" action="">
+        <div id="tree" style="max-height: 80%;">
+            <ul id="zTree" class="ztree"></ul>
+        </div>
+        <div id="button" style="position: absolute;bottom: 5px;left: 50%;">
+            <button type="button" id="selectedZTreeNode" class="layui-btn selectedZTreeNode" style="position: relative; left: -50%;">确定</button>
+        </div>
+    </form>
+<script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+<script src="${rc.contextPath}/layui/layui.all.js"></script>
+<script src="${rc.contextPath}/common/public-js.js"></script>
+<script src="${rc.contextPath}/webjars/zTree/3.5.37/js/jquery.ztree.all.min.js"></script>
+<script src="${rc.contextPath}/"></script>
+<script type="text/javascript" th:inline="none">//不加th:inline="none"，页面会报错，吧[[]]认成自定义的
+    <!--类型树设置start-->
+    var zTreeObject;
+    var $zTree = $("#zTree");
+    var setting = {
+        treeId:"zTree",
+        check: {
+            enable: true ,//每个节点上是否显示 radio
+            chkStyle :"radio",
+            radioType: "all",
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "${idKey!''}",
+                pIdKey: "${pIdKey!''}",
+                rootPId: "ROOT"
+            },
+            key: {
+                name: "${name!''}",
+                url: "disable"
+            }
+        },
+        callback: {
+            onClick: zTreeOnClick
+        }
+    };
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        /*点击选中事件*/
+        checkedClickNode(zTreeObject,treeNode,true,false,false);
+    }
+    function loadZtree() {
+        var list = doAjaxData("${rc.contextPath}${url!''}", "",null,null);
+        zTreeObject = $.fn.zTree.init($zTree, setting, list);
+        openFirstTreenode();
+    }
+    function callback(){
+
+    }
+    /**
+     * 展开树节点的第一层
+     */
+    function openFirstTreenode(){
+        // 获取树对象
+        var treeObj = $.fn.zTree.getZTreeObj("zTree");
+        /* 获取所有树节点 */
+        var nodes = treeObj.transformToArray(treeObj.getNodes());
+        //展开第一级树
+        treeObj.expandNode(nodes[0], true);
+    }
+    <!--类型树设置end-->
+
+    $(function () {
+        //加载树
+        loadZtree();
+        //确定事件
+        $("#selectedZTreeNode").click(function () {
+            selectedZTreeNode(zTreeObject,"${show_idKey!''}","${idKey!''}","${show_name!''}","${name!''}");
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>learn by lcy</title>
+    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">learnerLcy</div><!--learn start and alway stop-->
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect="" id="flexible">
+                    <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item"><a href="">控制台</a></li>
+                <li class="layui-nav-item"><a href="">商品管理</a></li>
+                <li class="layui-nav-item"><a href="">用户</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">其它系统</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">邮件管理</a></dd>
+                        <dd><a href="">消息管理</a></dd>
+                        <dd><a href="">授权管理</a></dd>
+                    </dl>
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="layui-icon">&#xe63f;</i> 皮肤</a>
+                    </a>
+                    <dl class="layui-nav-child skin">
+                        <dd><a href="javascript:;" data-skin="default" style="color:#393D49;"><i class="layui-icon">&#xe658;</i> 默认</a></dd>
+                        <dd><a href="javascript:;" data-skin="orange" style="color:#ff6700;"><i class="layui-icon">&#xe658;</i> 橘子橙</a></dd>
+                        <dd><a href="javascript:;" data-skin="green" style="color:#00a65a;"><i class="layui-icon">&#xe658;</i> 春天绿</a></dd>
+                        <dd><a href="javascript:;" data-skin="pink" style="color:#FA6086;"><i class="layui-icon">&#xe658;</i> 少女粉</a></dd>
+                        <dd><a href="javascript:;" data-skin="blue.1" style="color:#00c0ef;"><i class="layui-icon">&#xe658;</i> 天空蓝</a></dd>
+                        <dd><a href="javascript:;" data-skin="red" style="color:#dd4b39;"><i class="layui-icon">&#xe658;</i> 枫叶红</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="">控制台<span class="layui-badge xxtz">0</span></a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                        贤心
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">基本资料</a></dd>
+                        <dd><a href="">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">退出</a></li>
+            </ul>
+        </div>
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree"  lay-filter="leftTree">
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-tab layui-tab-brief" lay-filter="contentnav" lay-allowClose="true" style="margin-left:200px;margin-top:0;">
+            <ul class="layui-tab-title">
+                <li class="layui-this">首页</li>
+            </ul>
+            <ul class="layui-bg-green rightmenu" style="display: none;position: absolute;">
+                <li data-type="closethis">关闭当前</li>
+                <li data-type="closeall">关闭所有</li>
+            </ul>
+            <div class="layui-tab-content" style="padding:0;">
+                <div class="layui-tab-item layui-show">
+                    <iframe data-frameid="index" scrolling="auto" frameborder="0" src="${rc.contextPath}/index/showHomePage" style="width:100%;"></iframe>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            2019 &copy;
+            由lcy倾心打造的一款快速开发脚手架
+        </div>
+    </div>
+    <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+    <script src="${rc.contextPath}/layui/layui.all.js"></script>
+    <script src="${rc.contextPath}/common/index.js"></script>
+    <script src="${rc.contextPath}/common/websocket.js"></script>
+    <script>
+        //JavaScript代码区域
+        $(function () {
+            //加载导航栏
+            innitLeftTree();
+            var H = $(window).height() - $(".layui-footer").height();
+            $("iframe").css("height", H + "px");
+        })
+    </script>
+</body>
+</html>

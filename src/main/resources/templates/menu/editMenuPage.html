@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑菜单</title>
+    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+    <link rel="stylesheet" href="${rc.contextPath}/webjars/zTree/3.5.37/css/zTreeStyle/zTreeStyle.css">
+    <style>
+        form{
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form class="layui-form" action="">
+        <!--隐藏id,uodate使用-->
+        <input type="hidden" name="id" value="${menuInfo.id}">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="menuName" required  lay-verify="required" placeholder="请输入菜单名称"
+                       autocomplete="off" class="layui-input" value="${menuInfo.menuName}">
+            </div>
+            <label class="layui-form-label">显示顺序</label>
+            <div class="layui-input-inline">
+                <input type="text" name="menuNum" lay-verify="number" placeholder="请输入显示顺序"
+                       autocomplete="off" class="layui-input" value="${menuInfo.menuNum}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">url地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="menuUrl" placeholder="请输入url地址"
+                       autocomplete="off" class="layui-input" value="${menuInfo.menuUrl}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上级菜单</label>
+            <div class="layui-input-block">
+                <b><input type="text" id="menuPName" name="menuPName" placeholder="请选择上级菜单" autocomplete="off" class="layui-input" onclick="selectMenuParent();" readonly value="${menuInfo.menuPid!''}"></b>
+                <input type="hidden" id="menuPid" name="menuPid" value="${menuInfo.menuPid!''}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">icon图标</label>
+            <div class="layui-input-block">
+                <input type="text" name="menuIcon" placeholder="请输入icon图标"
+                       autocomplete="off" class="layui-input" value="${menuInfo.menuIcon}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否启用</label>
+            <div class="layui-input-block">
+                <#if menuInfo.menuFlag == "1">
+                    <input type="radio" name="menuFlag" value="1" title="是" checked>
+                    <input type="radio" name="menuFlag" value="0" title="否" >
+                <#else>
+                    <input type="radio" name="menuFlag" value="1" title="是" >
+                    <input type="radio" name="menuFlag" value="0" title="否" checked>
+                </#if>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">菜单描述</label>
+            <div class="layui-input-block">
+                <textarea name="menuDescription" placeholder="请输入菜单描述" class="layui-textarea">${menuInfo.menuDescription!''}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="menuForm">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+    <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+    <script src="${rc.contextPath}/layui/layui.all.js"></script>
+    <script src="${rc.contextPath}/webjars/zTree/3.5.37/js/jquery.ztree.all.min.js"></script>
+    <script src="${rc.contextPath}/common/public-js.js"></script>
+    <script>
+        //Demo
+        layui.use(['form','layer'], function(){
+            var form = layui.form;
+            //监听提交
+            form.on('submit(menuForm)', function(data){
+                $.ajax({
+                    type: "Post",
+                    url: "/menu/editMenu",   //ajax请求地址
+                    data: data.field,
+                    async:false,
+                    dataType: "json",
+                    traditional: true,
+                    success: function (data) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        window.top.layer.msg(data.msg,{icon:6,area:['120px','80px'],anim:2});
+                        parent.layer.close(index);
+                        parent.location.replace(parent.location.href);
+                    },
+                    error:function (data) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        window.top.layer.msg('请求失败',{icon:5,area:['120px','80px'],anim:2});
+                        parent.layer.close(index);
+                    }
+                })
+            });
+        });
+        //点击选择文章类型事件
+        function selectMenuParent(){
+            var pid = $("#menuPid").val();
+            //跳转添加页面
+            openLayer("选择上级菜单","${rc.contextPath}/common/selectResourcePage?type=menu","400","400");
+        }
+    </script>
+</body>
+</html>

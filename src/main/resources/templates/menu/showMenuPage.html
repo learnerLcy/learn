@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <meta charset="utf-8">
+        <title>菜单管理</title>
+        <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+    </head>
+    <body>
+        <table id="menuTable" lay-filter="test"></table>
+        <!--头部按钮-->
+        <script type="text/html" id="menuToolbar">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+                <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+                <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+                <button class="layui-btn layui-btn-sm" lay-event="addMenu">增加</button>
+            </div>
+        </script>
+        <!--操作栏-->
+        <script type="text/html" id="operateBar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+
+
+        <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+        <script src="${rc.contextPath}/layui/layui.all.js"></script>
+        <script src="${rc.contextPath}/common/public-js.js"></script>
+        <script type="text/javascript" th:inline="none">//不加th:inline="none"，页面会报错，吧[[]]认成自定义的
+            $(function () {
+                //初始化table列表
+                var cols = [[ //表头
+                    {type: 'checkbox', fixed: 'left'}
+                   /* ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}*/
+                    ,{field: 'menuName',treeNodes: true, title: '菜单名称'}
+                   /* ,{field: 'menuPid', title: '父菜单id'}*/
+                    ,{field: 'menuNum', title: '显示顺序'}
+                    ,{field: 'menuDescription', title: '菜单描述'}
+                    ,{field: 'menuUrl', title: 'url地址'}
+                    ,{field: 'menuIcon', title: 'icon图标'}
+                    ,{field: 'menuFlagName', title: '启用状态'}
+                    ,{fixed: 'right', title:'操作', toolbar: '#operateBar', width:150} //操作栏
+                ]];
+                treeTable.treeColIndex = 1;
+                treeTable.treeSpid = "ROOT";
+                treeTable.treeIdName = "id";
+                treeTable.treePidName = "menuPid";
+                treeTable.createTable("#menuTable",'${rc.contextPath}/menu/getMenuList','#menuToolbar','菜单',cols,afterTreeTableLoadSuccess);
+            })
+            //添加事件
+            function addMenu(){
+                //跳转添加页面
+                openLayer("增加菜单","/menu/addMenuPage","700","500");
+            }
+            function editMenu(obj){
+                openLayer("编辑菜单","/menu/editMenuPage?id="+obj.data.id,"700","500");
+            }
+
+        /**
+         * 需要table加载之后执行的方法写在回调方法里
+         * 直接写在js里会出现异步加载添加不上事件的问题
+         */
+        function afterTreeTableLoadSuccess(){
+            //头工具栏事件
+            treeTable.table.on('toolbar(test)', function(obj){
+                var checkStatus = treeTable.table.checkStatus(obj.config.id);
+                switch(obj.event){
+                    case 'getCheckData':
+                        var data = checkStatus.data;
+                        layer.alert(JSON.stringify(data));
+                        break;
+                    case 'getCheckLength':
+                        var data = checkStatus.data;
+                        layer.msg('选中了：'+ data.length + ' 个');
+                        break;
+                    case 'isAll':
+                        layer.msg(checkStatus.isAll ? '全选': '未全选');
+                        break;
+                    case 'addMenu':
+                        addMenu();
+                        break;
+                };
+            });
+            //监听行工具事件
+            treeTable.table.on('tool(test)', function(obj){
+                var data = obj.data;
+                if(obj.event === 'del'){
+                    layer.confirm('真的删除行么', function(index){
+                        $.post("${rc.contextPath}/menu/deleteMenu",{id:obj.data.id},function(data){
+                            if(data.success){
+                                obj.del();
+                                layer.msg(data.msg);
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },"json");
+                    });
+                } else if(obj.event === 'edit'){
+                    editMenu(obj);
+                }
+            });
+        }
+        </script>
+    </body>
+</html>

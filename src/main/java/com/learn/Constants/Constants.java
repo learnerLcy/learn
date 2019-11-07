@@ -1,0 +1,20 @@
+package com.learn.Constants;
+
+/**
+ * @ClassName:Constants
+ * @Description: 常用常量
+ * @Author:lvchunyang
+ * @Date:17:15
+ **/
+public class Constants {
+
+    public static String ROOT = "ROOT";
+    //状态码：启用、禁用
+    public static String STATE_QY = "1";
+    public static String STATE_JY = "0";
+
+
+    //选择弹窗类型
+    public static String MENU = "menu";                                                   //选择上级菜单页面
+    public static String ARTICLECATEGORY = "articleCategory";                             //选择文章类型页面
+}

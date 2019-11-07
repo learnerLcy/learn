@@ -1,0 +1,4 @@
+{"msg":"true","code":0,
+  "data":[{"id":"5631bceab07748edb81bd980e135ca29","category":"后端","description":"后端","category_pid":"86913445cf984bb2aed8bee9549eb218","flag":"1"},
+    {"id":"86913445cf984bb2aed8bee9549eb218","category":"java","description":"java","category_pid":"ROOT","flag":"1"},
+    {"id":"8cc5a681e8a94e138b791d6d8ea413cc","category":"前端","description":"前端","category_pid":"86913445cf984bb2aed8bee9549eb218","flag":"1"}],"count":3}
