@@ -35,7 +35,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu,String> implements Men
         //获取所有菜单信息
         Condition condition=new Condition(Menu.class);
         condition.createCriteria().andCondition("menu_flag = '"+Constants.STATE_QY +"' ");
-        condition.setOrderByClause("menu_num asc");
+        condition.setOrderByClause("menu_num+0 asc");
         List<Menu> menuList = menuMapper.selectByExample(condition);
         //获取一级菜单
         List<Menu> menuRootTree = TreeUtils.getRootTreeInfo(Menu.class,menuList,"menuPid","ROOT");
