@@ -10,6 +10,7 @@
     <body>
         <!-- 构造form表单，以便提交数据-->
         <form id="formBlog"  method="post" action="${rc.contextPath}/article/editArticle" class="layui-form" style="width: 90%;margin: 10px auto 10px">
+            <input type="hidden" name="id" id="id" value="${articleInfo.id!''}">
             <!--编辑md信息-->
             <div class="layui-row">
                 <div class="layui-col-md7">
@@ -24,7 +25,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">文章类型</label>
                         <div class="layui-input-block">
-                            <b><input type="text" id="articleTypeName" name="articleTypeName" required  lay-verify="required" placeholder="请选择类型" autocomplete="off" class="layui-input" onclick="selectArticleType();" value="${articleInfo.articleTypeId!''}" readonly></b>
+                            <b><input type="text" id="articleTypeName" name="articleTypeName" required  lay-verify="required" placeholder="请选择类型" autocomplete="off" class="layui-input" onclick="selectArticleType();" value="${articleInfo.articleTypeName!''}" readonly></b>
                             <input type="hidden" id="articleTypeId" name="articleTypeId" value="${articleInfo.articleTypeId!''}">
                         </div>
                     </div>
@@ -91,6 +92,13 @@
                     });
                 });
             });
+            //点击选择文章类型事件
+            function selectArticleType(){
+                var articleTypeId = $("#articleTypeId").val();
+                //跳转添加页面
+                /*openLayer("选择文章类型","${rc.contextPath}/article/category/selectCategoryPage?articleTypeId="+articleTypeId,"400","400");*/
+                openLayer("选择文章类型","${rc.contextPath}/common/selectResourcePage?id="+articleTypeId+"&type=articleCategory","400","400");
+            }
         </script>
     </body>
 </html>

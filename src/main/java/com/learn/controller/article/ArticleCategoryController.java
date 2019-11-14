@@ -1,11 +1,13 @@
 package com.learn.controller.article;
 
+import com.learn.Constants.Constants;
 import com.learn.PoJo.PageData;
 import com.learn.PoJo.Result;
 import com.learn.PoJo.article.ArticleCategory;
 import com.learn.service.system.article.ArticleCategoryService;
 import com.learn.utils.CommonConstant;
 import com.learn.utils.CommonUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +49,7 @@ public class ArticleCategoryController {
     @RequestMapping("/getCategoryList")
     @ResponseBody
     public Object getCategoryList(ArticleCategory articleCategory, PageData pageData){
-        return articleCategoryService.show(articleCategory,pageData.getPage(), pageData.getLimit());
+        return articleCategoryService.show(articleCategoryService.select_Artificial(articleCategory),pageData.getPage(), pageData.getLimit());
     }
     /**
     *@Author:lvchunyang
@@ -64,6 +66,9 @@ public class ArticleCategoryController {
     @RequestMapping("/editCategoryPage")
     public ModelAndView editMenuPage(ModelAndView mv,ArticleCategory articleCategory){
         ArticleCategory articleCategoryInfo = articleCategoryService.selectByPrimaryKey(articleCategory.getId());
+        if(StringUtils.isNotBlank(articleCategoryInfo.getCategory_pid()) && !articleCategoryInfo.getCategory_pid().equals(Constants.ROOT)){
+            articleCategoryInfo.setCategoryPName(articleCategoryService.selectByPrimaryKey(articleCategoryInfo.getCategory_pid()).getCategory());
+        }
         mv.addObject("articleCategoryInfo",articleCategoryInfo);
         mv.setViewName("/article/category/editCategoryPage");
         return mv;
@@ -85,6 +90,11 @@ public class ArticleCategoryController {
     @ResponseBody
     public Result editCategory(ArticleCategory articleCategory){
         return articleCategoryService.defaultOperate(articleCategoryService.updateByPrimaryKey(articleCategory), CommonConstant.UPDATE_CH);
+    }
+    @RequestMapping("/deleteCategory")
+    @ResponseBody
+    public Result deleteCategory(ArticleCategory articleCategory){
+        return articleCategoryService.defaultOperate(articleCategoryService.deleteByPrimaryKey(articleCategory.getId()), CommonConstant.DELETE_CH);
     }
     /**
     *@Author:lvchunyang

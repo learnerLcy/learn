@@ -3,10 +3,12 @@ package com.learn.controller.article;
 import com.learn.PoJo.PageData;
 import com.learn.PoJo.Result;
 import com.learn.PoJo.article.Article;
+import com.learn.service.system.article.ArticleCategoryService;
 import com.learn.service.system.article.ArticleService;
 import com.learn.utils.CommonConstant;
 import com.learn.utils.CommonUtils;
 import com.learn.utils.ConventUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,8 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private ArticleCategoryService articleCategoryService;
 
     /**
     *@Author:lvchunyang
@@ -50,7 +54,7 @@ public class ArticleController {
     @RequestMapping("/getArticleList")
     @ResponseBody
     public Result getCategoryList(Article article, PageData pageData){
-        return articleService.show(article,pageData.getPage(), pageData.getLimit());
+        return articleService.show(articleService.select_Artificial(article),pageData.getPage(), pageData.getLimit());
     }
     /**
     *@Author:lvchunyang
@@ -67,6 +71,9 @@ public class ArticleController {
     @RequestMapping("/editArticlePage")
     public ModelAndView editMenuPage(ModelAndView mv,Article article){
         Article articleInfo = articleService.selectByPrimaryKey(article.getId());
+        if(StringUtils.isNotBlank(articleInfo.getArticleTypeId())){
+            articleInfo.setArticleTypeName(articleCategoryService.selectByPrimaryKey(articleInfo.getArticleTypeId()).getCategory());
+        }
         articleInfo.setContentStr(new String(articleInfo.getContent()));
         mv.addObject("articleInfo",articleInfo);
         mv.setViewName("/article/article/editArticlePage");

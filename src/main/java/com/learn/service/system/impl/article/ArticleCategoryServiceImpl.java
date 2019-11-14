@@ -8,6 +8,8 @@ import com.learn.service.system.article.ArticleCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ClassName:ArticleTypesServiceImpl
  * @Description:
@@ -23,5 +25,11 @@ public class ArticleCategoryServiceImpl extends BaseServiceImpl<ArticleCategory,
     @Override
     public BaseMapper<ArticleCategory, String> getMappser() {
         return article_typesMapper;
+    }
+
+
+    @Override
+    public List<ArticleCategory> select_Artificial(ArticleCategory articleCategory) {
+        return article_typesMapper.select_Artificial(articleCategory);
     }
 }

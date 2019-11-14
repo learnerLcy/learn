@@ -115,6 +115,7 @@ var treeTable = {
                 treeDefaultClose: treeTable.treeDefaultClose,//是否默认折叠
                 treeLinkage: treeTable.treeLinkage,//父级展开时是否自动展开所有子级
                 toolbar: treeTable.toolbar,  //加载操作按钮
+                height: treeTable.height,    //高度
                 elem: treeTable.elem,
                 url: treeTable.url,
                 cols: treeTable.cols,

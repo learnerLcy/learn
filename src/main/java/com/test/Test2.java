@@ -1,5 +1,6 @@
 package com.test;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.test.proxy.User;
 

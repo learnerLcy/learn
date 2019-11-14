@@ -32,4 +32,7 @@ public class Article implements Serializable {
 
     private String html;
 
+    @Transient
+    private String articleTypeName;
+
 }

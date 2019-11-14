@@ -69,6 +69,10 @@ public class MenuController {
     @RequestMapping("/editMenuPage")
     public ModelAndView editMenuPage(ModelAndView mv,Menu menu){
         Menu menuInfo = menuService.selectByPrimaryKey(menu.getId());
+        //存在上级菜单，赋值
+        if(StringUtils.isNotBlank(menuInfo.getMenuPid()) && !menuInfo.getMenuPid().equals(Constants.ROOT)){
+            menuInfo.setMenuPName(menuService.selectByPrimaryKey(menuInfo.getMenuPid()).getMenuName());
+        }
         mv.addObject("menuInfo",menuInfo);
         mv.setViewName("/menu/editMenuPage");
         return mv;

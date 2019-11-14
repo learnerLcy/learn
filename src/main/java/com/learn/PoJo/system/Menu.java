@@ -27,4 +27,6 @@ public class Menu implements Serializable {
     private String menuFlagName;
     @Ignore
     private List<Menu> chrildrenList;
+    @Transient
+    private String menuPName;
 }

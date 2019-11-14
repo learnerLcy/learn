@@ -17,7 +17,7 @@ public class CommonController {
     
     /**
     *@Author:lvchunyang
-    *@Description:  type:类型(必传);id:不能选自己作为上级
+    *@Description:  type:类型(必传);id:默认选中的id
     *@Date:10:32 2019/11/6
     *@Para:[mv, type, pid]
     *@Return:org.springframework.web.servlet.ModelAndView
@@ -28,6 +28,8 @@ public class CommonController {
             initMenu(mv);
         }else if (Constants.ARTICLECATEGORY.equals(type)){
             initArticleCategory(mv);
+        }else if(Constants.CATEGORY.equals(type)){
+            initCategory(mv);
         }
         mv.addObject("id",id);
         mv.setViewName("/common/selectResourcePage");
@@ -74,6 +76,31 @@ public class CommonController {
 
         show_idKey = "articleTypeId";
         show_name = "articleTypeName";
+
+        mv.addObject("idKey",idKey);
+        mv.addObject("pIdKey",pIdKey);
+        mv.addObject("name",name);
+        mv.addObject("url",url);
+
+
+        mv.addObject("show_idKey",show_idKey);
+        mv.addObject("show_name",show_name);
+        return mv;
+    }
+    //选择文章类型初始化信息
+    public ModelAndView initCategory(ModelAndView mv){
+        //idKey,pIdKey,name：ztree显示需要的信息;url：ztree数据查询url
+        String idKey ="",pIdKey="",name="",url="";
+        //回填信息时页面对应的id
+        String show_idKey="",show_name="";
+
+        idKey = "id";
+        pIdKey = "category_pid";
+        name = "category";
+        url = "/article/category/getCategoryList";
+
+        show_idKey = "category_pid";
+        show_name = "pcategory";
 
         mv.addObject("idKey",idKey);
         mv.addObject("pIdKey",pIdKey);

@@ -31,9 +31,9 @@
             $(function () {
                 //初始化table列表
                 var cols = [[ //表头
-                    {type: 'checkbox', fixed: 'left'}
+                    /*{type: 'checkbox', fixed: 'left'}*/
                    /* ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}*/
-                    ,{field: 'menuName',treeNodes: true, title: '菜单名称'}
+                    {field: 'menuName',treeNodes: true, title: '菜单名称'}
                    /* ,{field: 'menuPid', title: '父菜单id'}*/
                     ,{field: 'menuNum', title: '显示顺序'}
                     ,{field: 'menuDescription', title: '菜单描述'}
@@ -42,7 +42,7 @@
                     ,{field: 'menuFlagName', title: '启用状态'}
                     ,{fixed: 'right', title:'操作', toolbar: '#operateBar', width:150} //操作栏
                 ]];
-                treeTable.treeColIndex = 1;
+                treeTable.treeColIndex = 0;
                 treeTable.treeSpid = "ROOT";
                 treeTable.treeIdName = "id";
                 treeTable.treePidName = "menuPid";

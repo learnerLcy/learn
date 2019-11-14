@@ -32,7 +32,7 @@ $(function () {
         {type: 'checkbox', fixed: 'left'}
         ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
         ,{field: 'title',treeNodes: true, title: '文章标题'}
-        ,{field: 'article_type_id', title: '文章类型'}
+        ,{field: 'articleTypeName', title: '文章类型'}
         ,{fixed: 'right', title:'操作', toolbar: '#operateBar', width:150} //操作栏
     ]];
     ptable.createTable("#articleTable",'${rc.contextPath}/article/getArticleList','#articleToolbar','文章',cols);
