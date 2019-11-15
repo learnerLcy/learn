@@ -4,7 +4,7 @@ import com.learn.Constants.Constants;
 import com.learn.PoJo.PageData;
 import com.learn.PoJo.Result;
 import com.learn.PoJo.article.ArticleCategory;
-import com.learn.service.system.article.ArticleCategoryService;
+import com.learn.service.article.ArticleCategoryService;
 import com.learn.utils.CommonConstant;
 import com.learn.utils.CommonUtils;
 import org.apache.commons.lang.StringUtils;

@@ -1,7 +1,7 @@
 package com.learn.mapper.system;
 
-import com.learn.Constants.Constants;
 import com.learn.PoJo.system.Menu;
+import com.learn.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

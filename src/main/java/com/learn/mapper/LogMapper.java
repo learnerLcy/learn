@@ -1,4 +1,4 @@
-package com.learn.mapper.system;
+package com.learn.mapper;
 
 import com.learn.PoJo.system.SysLog;
 import org.apache.ibatis.annotations.Mapper;

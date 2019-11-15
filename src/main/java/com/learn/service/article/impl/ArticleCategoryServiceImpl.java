@@ -1,10 +1,10 @@
-package com.learn.service.system.impl.article;
+package com.learn.service.article.impl;
 
 import com.learn.PoJo.article.ArticleCategory;
 import com.learn.mapper.article.ArticleCategoryMapper;
-import com.learn.mapper.system.BaseMapper;
+import com.learn.mapper.BaseMapper;
 import com.learn.service.BaseServiceImpl;
-import com.learn.service.system.article.ArticleCategoryService;
+import com.learn.service.article.ArticleCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +20,16 @@ import java.util.List;
 public class ArticleCategoryServiceImpl extends BaseServiceImpl<ArticleCategory,String> implements ArticleCategoryService {
 
     @Autowired
-    private ArticleCategoryMapper article_typesMapper;
+    private ArticleCategoryMapper articleCategoryMapper;
 
     @Override
     public BaseMapper<ArticleCategory, String> getMappser() {
-        return article_typesMapper;
+        return articleCategoryMapper;
     }
 
 
     @Override
     public List<ArticleCategory> select_Artificial(ArticleCategory articleCategory) {
-        return article_typesMapper.select_Artificial(articleCategory);
+        return articleCategoryMapper.select_Artificial(articleCategory);
     }
 }

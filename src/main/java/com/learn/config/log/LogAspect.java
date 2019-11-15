@@ -2,8 +2,7 @@ package com.learn.config.log;
 
 import com.learn.PoJo.system.SysLog;
 import com.learn.annotation.Log;
-import com.learn.mapper.system.LogMapper;
-import com.sun.net.httpserver.HttpContext;
+import com.learn.mapper.LogMapper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,9 +11,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.stereotype.Component;
-import sun.net.util.IPAddressUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.learn.service.system.article;
+package com.learn.service.article;
 
 import com.learn.PoJo.article.Article;
 import com.learn.service.BaseService;

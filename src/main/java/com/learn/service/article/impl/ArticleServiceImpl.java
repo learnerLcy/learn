@@ -1,10 +1,10 @@
-package com.learn.service.system.impl.article;
+package com.learn.service.article.impl;
 
 import com.learn.PoJo.article.Article;
 import com.learn.mapper.article.ArticleMapper;
-import com.learn.mapper.system.BaseMapper;
+import com.learn.mapper.BaseMapper;
 import com.learn.service.BaseServiceImpl;
-import com.learn.service.system.article.ArticleService;
+import com.learn.service.article.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

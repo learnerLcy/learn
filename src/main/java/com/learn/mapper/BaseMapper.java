@@ -1,4 +1,4 @@
-package com.learn.mapper.system;
+package com.learn.mapper;
 
 import tk.mybatis.mapper.common.Mapper;
 

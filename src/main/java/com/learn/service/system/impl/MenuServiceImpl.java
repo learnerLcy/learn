@@ -3,7 +3,7 @@ package com.learn.service.system.impl;
 import com.learn.Constants.Constants;
 import com.learn.PoJo.Result;
 import com.learn.PoJo.system.Menu;
-import com.learn.mapper.system.BaseMapper;
+import com.learn.mapper.BaseMapper;
 import com.learn.mapper.system.MenuMapper;
 import com.learn.service.BaseServiceImpl;
 import com.learn.service.system.MenuService;

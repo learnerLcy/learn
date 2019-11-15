@@ -4,13 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.learn.PoJo.Result;
-import com.learn.mapper.system.BaseMapper;
+import com.learn.mapper.BaseMapper;
 import tk.mybatis.mapper.entity.Condition;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName:BaseServiceImpl
@@ -37,6 +35,11 @@ public abstract class BaseServiceImpl<T,E extends Serializable> implements BaseS
     @Override
     public int deleteByPrimaryKey(E id) {
         return getMappser().deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteByExample(T t) {
+        return getMappser().deleteByExample(t);
     }
 
     @Override
