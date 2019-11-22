@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * @ClassName:SystemManager
  * @Description:
@@ -25,6 +27,12 @@ public class SystemManagerController {
 
     @RequestMapping("/goSystemManager")
     public ModelAndView goSystemManager(ModelAndView mv){
+        List<System> systemList = systemManagerService.select(null);
+        System systemInfo = new System();
+        if(systemList.size()>0){
+            systemInfo = systemList.get(0);
+        }
+        mv.addObject("systemInfo",systemInfo);
         mv.setViewName("/systemManager/systemManeger");
         return mv;
     }

@@ -23,4 +23,5 @@ public class SystemManagerServiceImpl  extends BaseServiceImpl<System,String> im
     public BaseMapper<System, String> getMappser() {
         return systemManagerMapper;
     }
+
 }

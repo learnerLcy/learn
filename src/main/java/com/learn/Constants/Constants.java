@@ -18,4 +18,10 @@ public class Constants {
     public static String MENU = "menu";                                                   //选择上级菜单页面
     public static String ARTICLECATEGORY = "articleCategory";                             //文章管理--选择文章类型页面
     public static String CATEGORY = "category";                                           //文章类型管理--选择上级类型页面
+
+
+
+    //mongoDb
+    /*file type值*/
+    public static String SY_IMG = "0";                                                      //首页背景图
 }

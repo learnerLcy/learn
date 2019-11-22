@@ -11,6 +11,6 @@ import java.util.List;
  * @Author:lvchunyang
  * @Date:19:42
  **/
-public interface ArticleService extends BaseService<Article,String> {
+public interface ArticleService extends BaseService<Article,String>{
     List<Article> select_Artificial(Article article);
 }

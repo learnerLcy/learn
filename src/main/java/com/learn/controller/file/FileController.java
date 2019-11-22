@@ -1,22 +1,27 @@
 package com.learn.controller.file;
 
 import com.alibaba.fastjson.JSONObject;
+import com.learn.Constants.Constants;
+import com.learn.PoJo.mongo.Files;
+import com.learn.service.mongo.FilesMongoDB;
+import com.learn.utils.CommonUtils;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * @ClassName:FileCOntroller
@@ -27,6 +32,8 @@ import java.net.URLEncoder;
 @Controller
 @RequestMapping("/file")
 public class FileController {
+    @Autowired
+    private FilesMongoDB filesMongoDB;
     /**
      * editormd的图片上传
      * @param file
@@ -109,6 +116,35 @@ public class FileController {
         if (out != null) {
             out.flush();
             out.close();
+        }
+    }
+
+
+
+    @RequestMapping("/fileUpload_MongoDB")
+    @ResponseBody
+    public void fileUpload_MongoDB (HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+        if(fileMap == null || fileMap.size() == 0){
+
+        }
+        Collection<MultipartFile> files = fileMap.values();
+        byte[] fileTypes = null;
+        Files filesInfo = null;
+        for(MultipartFile file:files){
+            filesInfo = new Files();
+            fileTypes = file.getBytes();
+
+            filesInfo.setId(CommonUtils.get32Uuid());
+            filesInfo.setType(Constants.SY_IMG);
+            filesInfo.setFileName(file.getOriginalFilename());
+            filesInfo.setFileByte(fileTypes);
+            filesInfo.setFileSize(file.getSize());
+            filesInfo.setFileType(file.getContentType());
+            filesInfo.setFilecontent(file.getOriginalFilename());
+            filesMongoDB.saveObj(filesInfo);
         }
     }
 }

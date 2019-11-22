@@ -27,7 +27,6 @@ public class ArticleCategoryServiceImpl extends BaseServiceImpl<ArticleCategory,
         return articleCategoryMapper;
     }
 
-
     @Override
     public List<ArticleCategory> select_Artificial(ArticleCategory articleCategory) {
         return articleCategoryMapper.select_Artificial(articleCategory);

@@ -5,9 +5,17 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.learn.PoJo.Result;
 import com.learn.mapper.BaseMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import tk.mybatis.mapper.entity.Condition;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -16,9 +24,8 @@ import java.util.List;
  * @Author:lvchunyang
  * @Date:10:11
  **/
+@Slf4j
 public abstract class BaseServiceImpl<T,E extends Serializable> implements BaseService<T,E> {
-
-
 
     public abstract BaseMapper<T, E> getMappser();
 
