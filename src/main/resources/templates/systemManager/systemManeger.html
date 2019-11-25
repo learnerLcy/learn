@@ -103,6 +103,7 @@
     <script src="${rc.contextPath}/JsSequenceDiagrams/raphael/raphael.min.js"></script>
     <script src="${rc.contextPath}/JsSequenceDiagrams/js-sequence-diagrams/dist/sequence-diagram-min.js"></script>
     <script>
+        loadFiles();
         /*表单提交操作*/
         var form;
         layui.use(['form','layer'], function(){
@@ -160,6 +161,27 @@
                 });
             }
         });
+
+        function loadFiles() {
+            $.ajax({
+                type: "Post",
+                url: "/systemManager/getFiles",   //ajax请求地址
+                success: function (data) {
+                    $.each(data, function(i,val){
+                        $('#demo2').append('<img src="data:image/png;base64,'+data[i].fileByte+'" alt="'+ data[i].fileName +'" class="layui-upload-img" id="remove_' + data[i].id + '" title="双击删除该图片">')
+                        $('#remove_' + data[i].id).bind('dblclick', function () {//双击删除指定预上传图片
+                            delete files[i];//删除指定图片
+                            $(this).remove();
+                        })
+                        $('#remove_' + data[i].id).bind('click', function () {//双击删除指定预上传图片
+                            renderImg();
+                        })
+                    });
+                },
+                error:function (data) {
+                }
+            });
+        }
     </script>
 </body>
 </html>
