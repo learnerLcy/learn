@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8">
+    <title>角色管理</title>
+    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+</head>
+<body>
+<table id="articleTable" lay-filter="test"></table>
+<!--头部按钮-->
+<script type="text/html" id="articleToolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addArticle">增加</button>
+        <button class="layui-btn layui-btn-sm" lay-event="delArticle">批量删除</button>
+    </div>
+</script>
+<!--操作栏-->
+<script type="text/html" id="operateBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+<script src="${rc.contextPath}/layui/layui.all.js"></script>
+<script src="${rc.contextPath}/common/public-js.js"></script>
+<script type="text/javascript" th:inline="none">//不加th:inline="none"，页面会报错，吧[[]]认成自定义的
+$(function () {
+    //初始化table列表
+    var cols = [[ //表头
+        {type: 'checkbox', fixed: 'left'}
+        ,{field: 'role_id', title: 'role_id', sort: true, fixed: 'left'}
+        ,{field: 'role_name',title: '角色名称'}
+        ,{field: 'role_description', title: '角色描述'}
+        ,{field: 'role_type', title: '启用状态'}
+        ,{fixed: 'right', title:'操作', toolbar: '#operateBar', width:150} //操作栏
+    ]];
+    ptable.createTable("#articleTable",'${rc.contextPath}/article/getArticleList','#articleToolbar','文章',cols);
+    //头工具栏事件
+    ptable.table.on('toolbar(test)', function(obj){
+        var checkStatus = ptable.table.checkStatus(obj.config.id);
+        switch(obj.event){
+            case 'addArticle':
+                addArticle();
+                break;
+            case 'delArticle':
+                delArticle();
+                break;
+        };
+    });
+    //监听行工具事件
+    ptable.table.on('tool(test)', function(obj){
+        var data = obj.data;
+        if(obj.event === 'del'){
+            layer.confirm('真的删除该文章吗？', function(index){
+                deleteArticle(obj);
+                layer.close(index);
+            });
+        } else if(obj.event === 'edit'){
+            editArticle(obj);
+        }
+    });
+})
+//添加事件
+function addArticle(){
+    window.location.href = "${rc.contextPath}/article/addArticlePage";
+}
+//修改事件
+function editArticle(obj){
+    window.location.href = "${rc.contextPath}/article/editArticlePage?id="+obj.data.id;
+}
+//删除事件
+function deleteArticle(obj){
+    $.post("${rc.contextPath}/article/deleteArticle",{id:obj.data.id},function(data){
+        if(data.success){
+            obj.del();
+            layer.msg(data.msg);
+        }else{
+            layer.msg(data.msg);
+        }
+    },"json");
+}
+</script>
+</body>
+</html>
