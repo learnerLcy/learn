@@ -9,10 +9,9 @@
 <body>
 <table id="articleTable" lay-filter="test"></table>
 <!--头部按钮-->
-<script type="text/html" id="articleToolbar">
+<script type="text/html" id="roleToolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addArticle">增加</button>
-        <button class="layui-btn layui-btn-sm" lay-event="delArticle">批量删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addRole">增加</button>
     </div>
 </script>
 <!--操作栏-->
@@ -30,22 +29,21 @@ $(function () {
     //初始化table列表
     var cols = [[ //表头
         {type: 'checkbox', fixed: 'left'}
-        ,{field: 'role_id', title: 'role_id', sort: true, fixed: 'left'}
-        ,{field: 'role_name',title: '角色名称'}
-        ,{field: 'role_description', title: '角色描述'}
-        ,{field: 'role_type', title: '启用状态'}
+        ,{field: 'roleName',title: '角色名称'}
+        ,{field: 'roleDescription', title: '角色描述'}
+        ,{field: 'roleTypeName', title: '启用状态'}
         ,{fixed: 'right', title:'操作', toolbar: '#operateBar', width:150} //操作栏
     ]];
-    ptable.createTable("#articleTable",'${rc.contextPath}/article/getArticleList','#articleToolbar','文章',cols);
+    ptable.createTable("#articleTable",'${rc.contextPath}/role/getRoleList','#roleToolbar','角色',cols);
     //头工具栏事件
     ptable.table.on('toolbar(test)', function(obj){
         var checkStatus = ptable.table.checkStatus(obj.config.id);
         switch(obj.event){
-            case 'addArticle':
-                addArticle();
+            case 'addRole':
+                addRole();
                 break;
-            case 'delArticle':
-                delArticle();
+            case 'delRole':
+                delRole();
                 break;
         };
     });
@@ -53,26 +51,27 @@ $(function () {
     ptable.table.on('tool(test)', function(obj){
         var data = obj.data;
         if(obj.event === 'del'){
-            layer.confirm('真的删除该文章吗？', function(index){
-                deleteArticle(obj);
+            layer.confirm('真的删除该角色吗？', function(index){
+                deleteRole(obj);
                 layer.close(index);
             });
         } else if(obj.event === 'edit'){
-            editArticle(obj);
+            editRole(obj);
         }
     });
 })
 //添加事件
-function addArticle(){
-    window.location.href = "${rc.contextPath}/article/addArticlePage";
+function addRole(){
+    openLayer("增加角色","${rc.contextPath}/role/addRolePage","700","500");
 }
 //修改事件
-function editArticle(obj){
-    window.location.href = "${rc.contextPath}/article/editArticlePage?id="+obj.data.id;
+function editRole(obj){
+    debugger
+    openLayer("编辑角色","${rc.contextPath}/role/editRolePage?roleId="+obj.data.roleId,"700","500");
 }
 //删除事件
-function deleteArticle(obj){
-    $.post("${rc.contextPath}/article/deleteArticle",{id:obj.data.id},function(data){
+function deleteRole(obj){
+    $.post("${rc.contextPath}/role/deleteRole",{roleId:obj.data.roleId},function(data){
         if(data.success){
             obj.del();
             layer.msg(data.msg);

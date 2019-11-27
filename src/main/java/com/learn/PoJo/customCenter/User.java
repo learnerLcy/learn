@@ -2,6 +2,8 @@ package com.learn.PoJo.customCenter;
 
 import lombok.Data;
 
+import javax.persistence.Id;
+
 /**
  * @ClassName:User
  * @Description:
@@ -10,6 +12,7 @@ import lombok.Data;
  **/
 @Data
 public class User {
+    @Id
     private String userId;
     private String loginName;
     private String passWord;

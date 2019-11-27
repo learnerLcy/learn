@@ -17,6 +17,7 @@ public interface ArticleMapper extends BaseMapper<Article,String> {
             "a.html html, " +
             "a.modifytime modifytime, " +
             "a.user_id user_id, " +
+            "a.article_flag articleFlag, " +
             "b.category articleTypeName " +
             "FROM article a "+
             "left join article_category b on b.id=a.article_type_id "+

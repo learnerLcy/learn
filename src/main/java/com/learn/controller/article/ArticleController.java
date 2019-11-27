@@ -97,9 +97,11 @@ public class ArticleController {
     @RequestMapping("/editArticle")
     @ResponseBody
     public Result editCategory(Article article){
-        article.setText(ConventUtil.html2Text(article.getHtml()));
+        if(StringUtils.isNotBlank(article.getHtml())){
+            article.setText(ConventUtil.html2Text(article.getHtml()));
+        }
         article.setModifytime(new Date());
-        return articleService.defaultOperate(articleService.updateByPrimaryKey(article), CommonConstant.UPDATE_CH);
+        return articleService.defaultOperate(articleService.updateByPrimaryKeySelective(article), CommonConstant.UPDATE_CH);
     }
     @RequestMapping("/deleteArticle")
     @ResponseBody

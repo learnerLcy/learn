@@ -35,4 +35,6 @@ public class Article implements Serializable {
     @Transient
     private String articleTypeName;
 
+    private String articleFlag;
+
 }

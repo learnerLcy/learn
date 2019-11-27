@@ -21,6 +21,9 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
+<script type="text/html" id="articleFlagCheckbox">
+    <input type="checkbox" name="lock" value="{{d.id}}" title="发布" lay-filter="lockArticleFlag" {{ d.articleFlag == "1" ? 'checked' : '' }}>
+</script>
 
 <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
 <script src="${rc.contextPath}/layui/layui.all.js"></script>
@@ -30,11 +33,23 @@ $(function () {
     //初始化table列表
     var cols = [[ //表头
         {type: 'checkbox', fixed: 'left'}
-        ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
         ,{field: 'title',treeNodes: true, title: '文章标题'}
         ,{field: 'articleTypeName', title: '文章类型'}
+        ,{field:'articleFlag', title:'是否发布', width:110, templet: '#articleFlagCheckbox', unresize: true}
         ,{fixed: 'right', title:'操作', toolbar: '#operateBar', width:150} //操作栏
     ]];
+    //监听锁定操作
+    layui.form.on('checkbox(lockArticleFlag)', function(obj){
+        var articleFlag =obj.elem.checked?"1":"0";
+        var title = obj.elem.checked?"发布":"取消发布";
+        $.post("${rc.contextPath}/article/editArticle",{id:this.value ,articleFlag:articleFlag},function(data){
+            if(data.success){
+                layer.msg(title+"成功");
+            }else{
+                layer.msg(title+"失败");
+            }
+        },"json");
+    });
     ptable.createTable("#articleTable",'${rc.contextPath}/article/getArticleList','#articleToolbar','文章',cols);
     //头工具栏事件
     ptable.table.on('toolbar(test)', function(obj){

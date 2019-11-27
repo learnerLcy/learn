@@ -8,6 +8,8 @@ import com.learn.service.customCenter.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ClassName:RoleServiceImpl
  * @Description:
@@ -22,5 +24,10 @@ public class RoleServiceImpl extends BaseServiceImpl<Role,String> implements Rol
     @Override
     public BaseMapper<Role, String> getMappser() {
         return roleMapper;
+    }
+
+    @Override
+    public List<Role> select_Artificial(Role role) {
+        return roleMapper.select_Artificial(role);
     }
 }

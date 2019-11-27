@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改角色</title>
+    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+    <style>
+        form{
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form" action="">
+    <input type="hidden" name="roleId" value="${roleInfo.roleId!''}">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="roleName" required  lay-verify="required" placeholder="请输入角色名称"
+                   autocomplete="off" class="layui-input" value="${roleInfo.roleName!''}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否启用</label>
+        <div class="layui-input-block">
+            <input type="radio" name="roleType" value="1" title="是" <#if roleInfo.roleType=='1'>checked<#else></#if>>
+            <input type="radio" name="roleType" value="0" title="否" <#if roleInfo.roleType=='0'>checked<#else></#if>>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色描述</label>
+        <div class="layui-input-block">
+            <textarea name="roleDescription" placeholder="请输入菜单描述" class="layui-textarea">${roleInfo.roleDescription!''}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="roleForm">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+<script src="${rc.contextPath}/layui/layui.all.js"></script>
+<script src="${rc.contextPath}/common/public-js.js"></script>
+<script>
+    //Demo
+    layui.use(['form','layer'], function(){
+        var form = layui.form;
+        //监听提交
+        form.on('submit(roleForm)', function(data){
+            $.ajax({
+                type: "Post",
+                data:data.field,
+                url: "${rc.contextPath}/role/editRole",   //ajax请求地址
+                success: function (data) {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    window.top.layer.msg(data.msg,{icon:6,area:['120px','80px'],anim:2});
+                    parent.layer.close(index);
+                    parent.location.replace(parent.location.href);
+                },
+                error:function (data) {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    window.top.layer.msg('请求失败',{icon:5,area:['120px','80px'],anim:2});
+                    parent.layer.close(index);
+                }
+            });
+            return false;
+        });
+        form.render();
+    });
+</script>
+</body>
+</html>

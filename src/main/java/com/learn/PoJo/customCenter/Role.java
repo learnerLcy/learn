@@ -2,6 +2,9 @@ package com.learn.PoJo.customCenter;
 
 import lombok.Data;
 
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 /**
  * @ClassName:role
  * @Description: 角色
@@ -10,8 +13,12 @@ import lombok.Data;
  **/
 @Data
 public class Role {
+    @Id
     private String roleId;
     private String roleName;
     private String roleDescription;
     private String roleType;
+
+    @Transient
+    private String roleTypeName;
 }
