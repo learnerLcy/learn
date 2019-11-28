@@ -172,6 +172,15 @@
         </dependency>
         <!--整合mongoDB  end-->
 
+        <!--整合shiro start-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+
+        <!--整合shiro end-->
+
     </dependencies>
 
     <build>

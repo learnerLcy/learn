@@ -1,6 +1,7 @@
 package com.learn.controller.customCenter;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/personal")
 public class PersonalController {
 
-    @RequestMapping("/showPersonalPage")
+    @GetMapping("/showPersonalPage")
     public ModelAndView showPersonalPage(ModelAndView mv){
         mv.setViewName("/customCenter/personal/personal");
         return mv;

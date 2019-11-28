@@ -8,6 +8,8 @@ import com.learn.service.customCenter.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 /**
  * @ClassName:UserRoleServiceImpl
  * @Description:
@@ -23,5 +25,10 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole,String> implem
     @Override
     public BaseMapper<UserRole, String> getMappser() {
         return userRoleMapper;
+    }
+
+    @Override
+    public Set<String> getUserRoles(UserRole userRole) {
+        return userRoleMapper.getUserRoles(userRole);
     }
 }
