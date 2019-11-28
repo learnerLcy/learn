@@ -1,16 +1,20 @@
 package com.learn;
 
+import com.learn.PoJo.customCenter.User;
+import com.learn.service.customCenter.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @ClassName:indexController
@@ -21,6 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/index")
 public class IndexController {
+    @Autowired
+    private UserService userService;
+
 
     @RequestMapping("/showIndexPage")
     public String showIndexPage(){
@@ -50,25 +57,31 @@ public class IndexController {
     @RequestMapping("/login")
     public String login(HttpServletRequest request, HttpServletResponse response) {
         response.setHeader("root", request.getContextPath());
-        String userName = request.getParameter("username");
+        String loginname = request.getParameter("loginname");
         String password = request.getParameter("password");
 
         // 1.获取Subject
         Subject subject = SecurityUtils.getSubject();
         // 2.封装用户数据
-        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(loginname, password);
         // 3.执行登录方法
         try {
             subject.login(token);
-            return "redirect:/main";
+            //return "redirect:/home";
         } catch (UnknownAccountException e) {
             e.printStackTrace();
             request.setAttribute("msg", "用户名不存在！");
         } catch (IncorrectCredentialsException e) {
             request.setAttribute("msg", "密码错误！");
         }
-
-        return "login";
+        User user = new User();
+        user.setLoginname(loginname);
+        List<User> userList = userService.select(user);
+        if(userList.size()>0){
+            user = userList.get(0);
+            subject.getSession().setAttribute("user", user);
+        }
+        return "/home";
     }
 
     @RequestMapping("/logout")

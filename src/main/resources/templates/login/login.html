@@ -7,14 +7,30 @@
     <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
 </head>
 <body class="layui-layout-body">
-    这是登陆页面
 
+    <form id="loginForm">
+        用户名：<input type="text" placeholder="用户名" name="loginname"/><br>
+        密码：<input type="text" placeholder="密码" name="password"/><br>
+        <button type="button" id="login">登陆</button>
+    </form>
 
     <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
     <script src="${rc.contextPath}/layui/layui.all.js"></script>
     <script src="${rc.contextPath}/common/index.js"></script>
     <script src="${rc.contextPath}/common/websocket.js"></script>
+    <script src="${rc.contextPath}/common/public-js.js"></script>
     <script>
+        $("#login").click(function () {
+            console.log($("#loginForm").serializeObject());
+            $.post("${rc.contextPath}/index/login",$("#loginForm").serializeObject(),function(data){
+                if(data.success){
+                    obj.del();
+                    layer.msg(data.msg);
+                }else{
+                    layer.msg(data.msg);
+                }
+            },"json");
+        });
     </script>
 </body>
 </html>

@@ -74,8 +74,8 @@ public class ShiroConfig {
          **/
         Map<String, String> filterMap = new LinkedHashMap<>();
         /* 登陆登出放行 */
-        filterMap.put("/index/toLogin","anon");
-        filterMap.put("/logout", "logout");
+        filterMap.put("/index/login","anon");
+        filterMap.put("/index/logout", "logout");
         //filterMap.put("/user/index","authc");
         //filterMap.put("/vip/index","roles[vip]");
 

@@ -217,3 +217,16 @@ function selectedZTreeNode(treeObj,target_id,source_id,target_name,source_name){
 function checkedClickNode(treeObj,treeNode,checked,checkTypeFlagBoolean,checkTypeFlagBoolean){
     treeObj.checkNode(treeNode, checked,checkTypeFlagBoolean, checkTypeFlagBoolean);
 }
+
+/*序列化form表单事件*/
+$.fn.serializeObject=function(){
+    var hasOwnProperty=Object.prototype.hasOwnProperty;
+    return this.serializeArray().reduce(function(data,pair){
+        if(!hasOwnProperty.call(data,pair.name)){
+            data[pair.name]=pair.value;
+        }else{
+            data[pair.name]=data[pair.name]+","+pair.value;
+        }
+        return data;
+    },{});
+};

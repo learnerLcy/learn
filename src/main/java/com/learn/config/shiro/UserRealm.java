@@ -15,6 +15,8 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * @ClassName:UserRealm
  * @Description: 自定义shiro的realm
@@ -53,18 +55,18 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = (String) token.getPrincipal();
         User user = new User();
-        user.setLoginName(username);
-        user = userService.select(user).get(0);
-        if(user == null){
+        user.setLoginname(username);
+        List<User> userList = userService.select(user);
+        if(userList.size()==0){
             throw new UnknownAccountException(); //没找到账号
         }
-
+        user = userList.get(0);
        /* if(Boolean.TRUE.equals(user.getLocked())){
             throw new LockedAccountException(); //账号被锁定
         }*/
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getLoginName(),
-                user.getPassWord(),
+                user.getLoginname(),
+                user.getPassword(),
                 ByteSource.Util.bytes(user.getSalt()), //salt = username+salt
                 getName());
         return authenticationInfo;

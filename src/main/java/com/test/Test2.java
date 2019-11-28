@@ -3,9 +3,12 @@ package com.test;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.test.proxy.User;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.tomcat.util.security.MD5Encoder;
 
 import java.io.*;
 import java.lang.reflect.*;
+import java.security.MessageDigest;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -79,5 +82,10 @@ public class Test2 {
         /*ObjectOutputStream
         ObjectStreamClass*/
         System.out.println(11 >> 2);
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        // 计算md5函数
+        md.update("1".getBytes());
+
+        System.out.println("##############"+new Md5Hash("1").toHex());
     }
 }
