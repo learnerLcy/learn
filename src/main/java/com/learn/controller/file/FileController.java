@@ -3,10 +3,12 @@ package com.learn.controller.file;
 import com.alibaba.fastjson.JSONObject;
 import com.learn.Constants.Constants;
 import com.learn.PoJo.Result;
+import com.learn.PoJo.customCenter.User;
 import com.learn.PoJo.mongo.Files;
 import com.learn.service.mongo.FilesMongoDB;
 import com.learn.utils.CommonUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -124,7 +126,7 @@ public class FileController {
 
     @RequestMapping("/fileUpload_MongoDB")
     @ResponseBody
-    public Result fileUpload_MongoDB (HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Result fileUpload_MongoDB (HttpServletRequest request, HttpServletResponse response,String type) throws Exception{
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
@@ -137,9 +139,14 @@ public class FileController {
         for(MultipartFile file:files){
             filesInfo = new Files();
             fileTypes = file.getBytes();
-
-            filesInfo.setId(CommonUtils.get32Uuid());
-            filesInfo.setType(Constants.SY_IMG);
+            if(Constants.IMG_SY.equals(type)){
+                filesInfo.setId(CommonUtils.get32Uuid());
+            }else if(Constants.IMG_PERSONAL.equals(type)){
+                //UserId相同不用手动删除，相当于map的key一致，会被覆盖
+                User currentUser = (User)SecurityUtils.getSubject().getSession().getAttribute("CurrentUser");
+                filesInfo.setId(currentUser.getUserId());
+            }
+            filesInfo.setType(type);
             filesInfo.setFileName(file.getOriginalFilename());
             filesInfo.setFileByte(fileTypes);
             filesInfo.setFileSize(file.getSize());

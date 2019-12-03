@@ -59,7 +59,7 @@ public class SystemManagerController {
     @ResponseBody
     public List<Files> getFiles(System system){
         Files files  = new Files();
-        files.setType(Constants.SY_IMG);
+        files.setType(Constants.IMG_SY);
         return filesMongoDB.queryList(files);
     }
 

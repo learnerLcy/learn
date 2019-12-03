@@ -57,6 +57,11 @@ public class PersonalController {
         mv.addObject("currentUser",currentUser);
         mv.addObject("roleList",roleList);
         mv.addObject("userRoleList",userRoleList);
+        mv.addObject("userId",currentUser.getUserId());
+        //目前是每个人单角色
+        if(userRoleList.size()>0){
+            mv.addObject("roleId",userRoleList.get(0).getRoleId());
+        }
         mv.setViewName("/customCenter/personal/personal");
         return mv;
     }

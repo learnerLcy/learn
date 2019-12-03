@@ -19,7 +19,7 @@ public interface BaseService<T,E extends Serializable> {
     T selectByPrimaryKey(E id);
 
     int deleteByPrimaryKey(E id);
-    int deleteByExample(T t);
+    int deleteByExample(Object o);
     int batchDeleteByPrimaryKey(E[] ids);
 
     int insert(T t);

@@ -45,8 +45,8 @@ public abstract class BaseServiceImpl<T,E extends Serializable> implements BaseS
     }
 
     @Override
-    public int deleteByExample(T t) {
-        return getMappser().deleteByExample(t);
+    public int deleteByExample(Object o) {
+        return getMappser().deleteByExample(o);
     }
 
     @Override
