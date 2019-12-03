@@ -7,6 +7,7 @@
 - [x] 前端**layui、ztree等**基本样式
 - [x] 支持**Mybatis通用mapper**的增删改查，**mybatis-generator逆向工程代码自动生成**
 - [x] **druid**数据库监控、**swagger2**构建api文档
+- [x] **MongoDb**数据库
 
 ## 现阶段功能模块：
 - [ ] 系统首页
