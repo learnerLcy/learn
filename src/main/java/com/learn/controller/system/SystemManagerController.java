@@ -62,4 +62,10 @@ public class SystemManagerController {
         files.setType(Constants.SY_IMG);
         return filesMongoDB.queryList(files);
     }
+
+    @PostMapping("/deleteFiles")
+    @ResponseBody
+    public Result deleteFiles(Files files){
+        return systemManagerService.defaultOperate(filesMongoDB.delete(files), CommonConstant.DELETE_CH);
+    }
 }

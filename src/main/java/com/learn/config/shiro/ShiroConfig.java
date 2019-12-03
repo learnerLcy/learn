@@ -59,7 +59,7 @@ public class ShiroConfig {
         // 设置 SecurityManager
         bean.setSecurityManager(securityManager);
         // 设置登录成功跳转Url
-        bean.setSuccessUrl("/main");
+        bean.setSuccessUrl("/index/showIndexPage");
         // 设置登录跳转Url
         bean.setLoginUrl("/index/toLogin");
         // 设置未授权提示Url
@@ -85,7 +85,7 @@ public class ShiroConfig {
         filterMap.put("/jquery-3.3.1/**","anon");
         filterMap.put("/JsSequenceDiagrams/**","anon");
         /* 其他需要登陆认证 */
-        filterMap.put("/**","authc");
+        filterMap.put("/**","anon");
 
         bean.setFilterChainDefinitionMap(filterMap);
         return bean;

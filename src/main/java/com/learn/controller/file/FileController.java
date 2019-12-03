@@ -2,6 +2,7 @@ package com.learn.controller.file;
 
 import com.alibaba.fastjson.JSONObject;
 import com.learn.Constants.Constants;
+import com.learn.PoJo.Result;
 import com.learn.PoJo.mongo.Files;
 import com.learn.service.mongo.FilesMongoDB;
 import com.learn.utils.CommonUtils;
@@ -123,7 +124,7 @@ public class FileController {
 
     @RequestMapping("/fileUpload_MongoDB")
     @ResponseBody
-    public void fileUpload_MongoDB (HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Result fileUpload_MongoDB (HttpServletRequest request, HttpServletResponse response) throws Exception{
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
@@ -146,5 +147,6 @@ public class FileController {
             filesInfo.setFilecontent(file.getOriginalFilename());
             filesMongoDB.saveObj(filesInfo);
         }
+        return new Result(true,"上传成功");
     }
 }

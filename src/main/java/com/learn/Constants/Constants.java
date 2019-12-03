@@ -24,4 +24,5 @@ public class Constants {
     //mongoDb
     /*file type值*/
     public static String SY_IMG = "0";                                                      //首页背景图
+    public static String IMG_PERSONAL = "img_personal";                                     //个人头像
 }

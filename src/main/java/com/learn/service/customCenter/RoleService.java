@@ -12,5 +12,5 @@ import java.util.List;
  * @Date:11:05
  **/
 public interface RoleService extends BaseService<Role,String> {
-    List<Role> select_Artificial(Role article);
+    List<Role> select_Artificial(Role role);
 }

@@ -74,14 +74,7 @@ public class IndexController {
         } catch (IncorrectCredentialsException e) {
             request.setAttribute("msg", "密码错误！");
         }
-        User user = new User();
-        user.setLoginname(loginname);
-        List<User> userList = userService.select(user);
-        if(userList.size()>0){
-            user = userList.get(0);
-            subject.getSession().setAttribute("user", user);
-        }
-        return "/home";
+        return "redirect:showIndexPage";
     }
 
     @RequestMapping("/logout")
