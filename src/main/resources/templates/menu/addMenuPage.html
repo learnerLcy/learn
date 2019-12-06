@@ -40,7 +40,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">icon图标</label>
             <div class="layui-input-block">
-                <input type="text" name="menuIcon" placeholder="请输入icon图标" autocomplete="off" class="layui-input">
+                <input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" name="menuIcon" value="">
             </div>
         </div>
         <div class="layui-form-item">
@@ -70,6 +70,35 @@
     <script src="${rc.contextPath}/common/public-js.js"></script>
     <script>
         /*表单提交操作*/
+        layui.config({
+            base: '/layui/lay/modules/'
+        }).extend({
+            treetable: 'iconPicker'
+        }).use(['iconPicker', 'form', 'layer'], function () {
+            var iconPicker = layui.iconPicker,
+                form = layui.form,
+                layer = layui.layer,
+                $ = layui.$;
+
+            iconPicker.render({
+                // 选择器，推荐使用input
+                elem: '#iconPicker',
+                // 数据类型：fontClass/unicode，推荐使用fontClass
+                type: 'fontClass',
+                // 是否开启搜索：true/false，默认true
+                search: true,
+                // 是否开启分页：true/false，默认true
+                page: true,
+                // 每页显示数量，默认12
+                limit: 12,
+                // 点击回调
+                click: function (data) {
+                },
+                // 渲染成功后的回调
+                success: function(d) {
+                }
+            });
+        })
         layui.use(['form','layer'], function(){
             var form = layui.form;
             //监听提交
