@@ -43,7 +43,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">icon图标</label>
-            <div class="layui-input-block" id="iconDiv">
+            <div class="layui-input-block">
                 <input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" name="menuIcon" value="${menuInfo.menuIcon!''}">
             </div>
         </div>
@@ -112,7 +112,7 @@
             form.on('submit(menuForm)', function(data){
                 $.ajax({
                     type: "Post",
-                    url: "/menu/editMenu",   //ajax请求地址
+                    url: "${rc.contextPath}/menu/editMenu",   //ajax请求地址
                     data: data.field,
                     async:false,
                     dataType: "json",
@@ -130,6 +130,7 @@
                     }
                 })
             });
+            form.render();
         });
         //点击选择文章类型事件
         function selectMenuParent(){
@@ -140,13 +141,7 @@
 
         $(function () {
             $("#resetIcon").click(function () {
-                var menuIcon = '<input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" name="menuIcon" value="">';
-                $("#iconDiv").empty();
-                $("#iconDiv").append(menuIcon);
-                iconPicker.render({
-                    // 选择器，推荐使用input
-                    elem: '#iconPicker'
-                });
+                iconPicker.checkIcon('iconPicker', "");
             })
         })
     </script>

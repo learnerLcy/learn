@@ -38,15 +38,15 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">icon图标</label>
-            <div class="layui-input-block" id="iconDiv">
+            <div class="layui-input-block">
                 <input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" name="menuIcon" value="">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">是否启用</label>
             <div class="layui-input-block">
-                <input type="radio" name="menuFlag" value="1" title="是">
-                <input type="radio" name="menuFlag" value="0" title="否" checked>
+                <input type="radio" name="menuFlag" value="1" title="是" checked>
+                <input type="radio" name="menuFlag" value="0" title="否" >
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -93,16 +93,18 @@
                 },
                 // 渲染成功后的回调
                 success: function(d) {
+                    iconPicker.checkIcon('iconPicker', '');
                 }
             });
         })
+
         layui.use(['form','layer'], function(){
             var form = layui.form;
             //监听提交
             form.on('submit(menuForm)', function(data){
                 $.ajax({
                     type: "Post",
-                    url: "/menu/addMenu",   //ajax请求地址
+                    url: "${rc.contextPath}/menu/addMenu",   //ajax请求地址
                     data: data.field,
                     success: function (data) {
                         var index = parent.layer.getFrameIndex(window.name);
@@ -128,13 +130,7 @@
         }
         $(function () {
             $("#resetIcon").click(function () {
-                var menuIcon = '<input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" name="menuIcon" value="">';
-                $("#iconDiv").empty();
-                $("#iconDiv").append(menuIcon);
-                iconPicker.render({
-                    // 选择器，推荐使用input
-                    elem: '#iconPicker'
-                });
+                iconPicker.checkIcon('iconPicker', '');
             })
         })
     </script>
