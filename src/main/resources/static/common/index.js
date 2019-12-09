@@ -40,24 +40,28 @@ function innitLeftTree(){
         success:function(data) {
             if(data.success ==true ){
                 var html = "";
+                var oriIcon = '<i class="layui-icon"></i>';
                 $.each(data.data, function(i,item){
                     var chrildrenList = item.chrildrenList;
                     var menuUrl = item.menuUrl==null||item.menuUrl==""?"javascript:;":item.menuUrl;
+                    oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
                     /*layui-nav-itemed*/
+                    //一級目錄包含下級節點
                     if(chrildrenList!=null){
-                        html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"'>"+item.menuName+"</a>";
+                        html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
                         html += " <dl class='layui-nav-child'>";
                         $.each(chrildrenList, function(i,item){
                             if(item.chrildrenList!=null){
                                 html += eachChrildLeftTree(item,"");
-                            }else{
+                            }else{//二級子菜單沒有下級節點
                                 menuUrl = item.menuUrl==null||item.menuUrl==""?"javascript:;":item.menuUrl;
-                                html += " <dd><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+item.menuName+"</a></dd>";
+                                oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+                                html += " <dd><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
                             }
                         });
                         html += "</dl>";
-                    }else{
-                        html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+item.menuName+"</a>";
+                    }else{//一級目錄就是根節點
+                        html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
                     }
                     html += "</li>";
                 });
@@ -80,30 +84,33 @@ function innitLeftTree(){
 function eachChrildLeftTree(item,html){
     var html = "";
     var menuUrl = item.menuUrl==null||item.menuUrl==""?"javascript:;":item.menuUrl;
+    var oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
     if(item.chrildrenList!=null){
-        html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"'>"+item.menuName+"</a>";
+        html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
         html += " <dl class='layui-nav-child'>";
         $.each(item.chrildrenList, function(i,item){
+            oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
             if(item.chrildrenList!=null){
-                html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"'>"+item.menuName+"</a>";
+                html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
                 html += " <dl class='layui-nav-child'>";
                 $.each(item.chrildrenList, function(i,item){
                     if(item.chrildrenList!=null){
                         html += eachChrildLeftTree(item,html);
                     }else{
+                        oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
                         menuUrl = item.menuUrl==null||item.menuUrl==""?"javascript:;":item.menuUrl;
-                        html += " <dd><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+item.menuName+"</a></dd>";
+                        html += " <dd><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
                     }
                 });
                 html += "</dl>";
             }else{
                 menuUrl = item.menuUrl==null||item.menuUrl==""?"javascript:;":item.menuUrl;
-                html += " <dd><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+item.menuName+"</a></dd>";
+                html += " <dd><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
             }
         });
         html += "</dl>";
     }else{
-        html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+item.menuName+"</a>";
+        html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
     }
     return html;
 }

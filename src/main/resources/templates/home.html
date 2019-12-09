@@ -9,6 +9,15 @@
 </head>
 <body style="background-color: #cccccc">
 
+    <!--iconpincker-->
+    <!--<div class="layui-form-item">
+        <label for="" class="layui-form-label">默认图标</label>
+        <div class="layui-input-block">
+            <input type="text" id="iconPicker" lay-filter="iconPicker" class="hide">
+        </div>
+    </div>-->
+
+
     <div class="layui-fluid" style="margin-top: 5px;">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md8">
@@ -226,6 +235,40 @@
     <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
     <script src="${rc.contextPath}/layui/layui.all.js"></script>
     <script>
+        /**
+         * 加载iconPicker
+         */
+        layui.config({
+            base: '/layui/lay/modules/'
+        }).extend({
+            treetable: 'iconPicker'
+        }).use(['iconPicker', 'form', 'layer'], function () {
+            var iconPicker = layui.iconPicker,
+                form = layui.form,
+                layer = layui.layer,
+                $ = layui.$;
+
+            iconPicker.render({
+                // 选择器，推荐使用input
+                elem: '#iconPicker',
+                // 数据类型：fontClass/unicode，推荐使用fontClass
+                type: 'fontClass',
+                // 是否开启搜索：true/false，默认true
+                search: true,
+                // 是否开启分页：true/false，默认true
+                page: true,
+                // 每页显示数量，默认12
+                limit: 12,
+                // 点击回调
+                click: function (data) {
+                    console.log(data);
+                },
+                // 渲染成功后的回调
+                success: function(d) {
+                    console.log(d);
+                }
+            });
+        })
     </script>
 </body>
 </html>

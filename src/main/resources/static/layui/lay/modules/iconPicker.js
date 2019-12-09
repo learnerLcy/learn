@@ -154,7 +154,6 @@ layui.define(['laypage', 'form'], function (exports) {
                         '<i class="layui-icon">&#xe615;</i>' +
                         '</div>';
                 }
-
                 // 组合dom
                 var bodyHtml = '<div class="layui-iconpicker-body" id="'+ PICKER_BODY +'">' +
                     searchHtml +
