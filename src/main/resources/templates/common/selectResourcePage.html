@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>选择弹窗</title>
-    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
-    <link rel="stylesheet" href="${rc.contextPath}/webjars/zTree/3.5.37/css/zTreeStyle/zTreeStyle.css">
+    <#include "/importFile.html"/>
 </head>
 <body>
     <form class="layui-form" action="">
@@ -16,11 +15,6 @@
             <button type="button" id="selectedZTreeNode" class="layui-btn selectedZTreeNode" style="position: relative; left: -50%;">确定</button>
         </div>
     </form>
-<script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
-<script src="${rc.contextPath}/layui/layui.all.js"></script>
-<script src="${rc.contextPath}/common/public-js.js"></script>
-<script src="${rc.contextPath}/webjars/zTree/3.5.37/js/jquery.ztree.all.min.js"></script>
-<script src="${rc.contextPath}/"></script>
 <script type="text/javascript" th:inline="none">//不加th:inline="none"，页面会报错，吧[[]]认成自定义的
     <!--类型树设置start-->
     var zTreeObject;

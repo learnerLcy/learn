@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>文章类型管理</title>
-    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+    <#include "/importFile.html"/>
 </head>
 <body>
 <!--<table id="permissionTable" class="layui-table" lay-filter="permissionTable"></table>-->
@@ -22,9 +22,6 @@
 </script>
 
 
-<script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
-<script src="${rc.contextPath}/layui/layui.all.js"></script>
-<script src="${rc.contextPath}/common/public-js.js"></script>
 <script type="text/javascript" th:inline="none">//不加th:inline="none"，页面会报错，吧[[]]认成自定义的
 $(function () {
     //初始化table列表

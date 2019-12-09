@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>增加icon图标</title>
-    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
-    <link rel="stylesheet" href="${rc.contextPath}/webjars/zTree/3.5.37/css/zTreeStyle/zTreeStyle.css">
+    <#include "/importFile.html"/>
     <style>
         form{
             padding-top: 10px;
@@ -64,10 +63,6 @@
         </div>
     </form>
 
-    <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
-    <script src="${rc.contextPath}/layui/layui.all.js"></script>
-    <script src="${rc.contextPath}/webjars/zTree/3.5.37/js/jquery.ztree.all.min.js"></script>
-    <script src="${rc.contextPath}/common/public-js.js"></script>
     <script>
         /*表单提交操作*/
         layui.use(['form','layer'], function(){

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+    <#include "/importFile.html"/>
     <style>
         .layui-upload-img{width: 150px; height: 150px; margin: 0 10px 10px 0;}
     </style>
@@ -86,8 +86,6 @@
         </div>
     </div>
 
-    <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
-    <script src="${rc.contextPath}/layui/layui.all.js"></script>
     <script>
         $(function () {
             //加载个人头像,freemark获取byte[]失败，改为ajax方式获取

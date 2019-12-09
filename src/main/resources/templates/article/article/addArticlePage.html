@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <title>Simple example - Editor.md examples</title>
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+        <#include "/importFile.html"/>
         <link rel="stylesheet" href="${rc.contextPath}/webjars/editor.md/1.5.0/css/editormd.css">
     </head>
     <body>
@@ -45,10 +45,6 @@
         </div>
 
 
-        <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
-        <script src="${rc.contextPath}/jquery-3.3.1/jquery.form.js"></script>
-        <script src="${rc.contextPath}/layui/layui.all.js"></script>
-        <script src="${rc.contextPath}/common/public-js.js"></script>
         <!--md编辑器需要的js-->
         <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/lib/marked.min.js"></script>
         <script type="text/javascript" src="${rc.contextPath}/webjars/editor.md/1.5.0/lib/prettify.min.js"></script>

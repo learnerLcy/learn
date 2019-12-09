@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>文章管理</title>
-    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+    <#include "/importFile.html"/>
 </head>
 <body>
 <table id="articleTable" lay-filter="test"></table>
@@ -25,9 +25,6 @@
     <input type="checkbox" name="lock" value="{{d.id}}" title="发布" lay-filter="lockArticleFlag" {{ d.articleFlag == "1" ? 'checked' : '' }}>
 </script>
 
-<script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
-<script src="${rc.contextPath}/layui/layui.all.js"></script>
-<script src="${rc.contextPath}/common/public-js.js"></script>
 <script type="text/javascript" th:inline="none">//不加th:inline="none"，页面会报错，吧[[]]认成自定义的
 $(function () {
     //初始化table列表
