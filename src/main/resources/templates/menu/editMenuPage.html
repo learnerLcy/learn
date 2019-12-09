@@ -44,7 +44,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">icon图标</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" id="iconDiv">
                 <input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" name="menuIcon" value="${menuInfo.menuIcon!''}">
             </div>
         </div>
@@ -69,6 +69,7 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="menuForm">立即提交</button>
+                <button type="button" class="layui-btn layui-btn-primary" id="resetIcon">重置icon</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -80,12 +81,13 @@
     <script src="${rc.contextPath}/common/public-js.js"></script>
     <script>
         //Demo
+        var iconPicker;
         layui.config({
             base: '/layui/lay/modules/'
         }).extend({
             treetable: 'iconPicker'
         }).use(['iconPicker', 'form', 'layer'], function () {
-            var iconPicker = layui.iconPicker,
+            iconPicker = layui.iconPicker,
                 form = layui.form,
                 layer = layui.layer,
                 $ = layui.$;
@@ -140,6 +142,18 @@
             //跳转添加页面
             openLayer("选择上级菜单","${rc.contextPath}/common/selectResourcePage?type=menu","400","400");
         }
+
+        $(function () {
+            $("#resetIcon").click(function () {
+                var menuIcon = '<input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" name="menuIcon" value="">';
+                $("#iconDiv").empty();
+                $("#iconDiv").append(menuIcon);
+                iconPicker.render({
+                    // 选择器，推荐使用input
+                    elem: '#iconPicker'
+                });
+            })
+        })
     </script>
 </body>
 </html>
