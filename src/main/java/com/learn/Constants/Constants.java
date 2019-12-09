@@ -9,6 +9,9 @@ package com.learn.Constants;
 public class Constants {
 
     public static String ROOT = "ROOT";
+    /*登陆提示信息*/
+    public static String unKnownLoginname = "用户不存在";
+    public static String incorrectCredentials = "密码错误";
     //状态码：启用、禁用
     public static String STATE_QY = "1";
     public static String STATE_JY = "0";

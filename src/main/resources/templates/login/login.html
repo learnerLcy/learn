@@ -1,36 +1,70 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>login</title>
-    <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
-</head>
-<body class="layui-layout-body">
+﻿<!doctype html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>简单用户登录界面</title>
+        <link rel="stylesheet" type="text/css" href="${rc.contextPath}/login/css/default.css"/>
+        <link rel="stylesheet" type="text/css" href="${rc.contextPath}/login/css/styles.css"/>
+        <!--[if IE]>
+                <script src="${rc.contextPath}/login/js/html5shiv.min.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="${rc.contextPath}/layui/css/layui.css">
+    </head>
+    <body>
+        <article class="htmleaf-container">
+            <header class="htmleaf-header">
+                <h1>简单用户登录界面</h1>
+                <div class="htmleaf-links">
 
-    <form id="loginForm">
-        用户名：<input type="text" placeholder="用户名" name="loginname"/><br>
-        密码：<input type="text" placeholder="密码" name="password"/><br>
-        <button type="button" id="login">登陆</button>
-    </form>
-
+                </div>
+            </header>
+            <form id="loginForm">
+                <div class="panel-lite">
+                    <div class="thumbur">
+                        <div class="icon-lock"></div>
+                    </div>
+                    <h4>用户登录</h4>
+                    <div class="form-group">
+                        <input required="required" class="form-control" name="loginname"/>
+                        <label class="form-label">用户名    </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" required="required" class="form-control" name="password"/>
+                        <label class="form-label">密　码</label>
+                    </div><a href="#">忘记密码 ?  </a>
+                    <button class="floating-btn" id="login" type="button"><i class="icon-arrow"></i></button>
+                </div>
+            </form>
+        </article>
+    <div style="text-align:center;">
+    </div>
+    </body>
     <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
     <script src="${rc.contextPath}/layui/layui.all.js"></script>
-    <script src="${rc.contextPath}/common/index.js"></script>
-    <script src="${rc.contextPath}/common/websocket.js"></script>
     <script src="${rc.contextPath}/common/public-js.js"></script>
     <script>
         $("#login").click(function () {
-            console.log($("#loginForm").serializeObject());
-            $.post("${rc.contextPath}/index/login",$("#loginForm").serializeObject(),function(data){
-                if(data.success){
-                    obj.del();
-                    layer.msg(data.msg);
-                }else{
-                    layer.msg(data.msg);
+            $.ajax({
+                url : '${rc.contextPath}/index/login',
+                type : 'post',
+                data : $("#loginForm").serializeObject(),
+                contentType : "application/x-www-form-urlencoded;charset=UTF-8",
+                dataType : 'json',
+                async: true,
+                success : function(data) {
+                    if(data.success){
+                        window.location.href = "${rc.contextPath}/index/showIndexPage";
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error : function() {
+                    alert("系统错误,请联系管理员!");
+                    return;
                 }
-            },"json");
+            });
         });
     </script>
-</body>
 </html>

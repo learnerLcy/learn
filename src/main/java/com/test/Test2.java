@@ -87,13 +87,13 @@ public class Test2 {
         System.out.println(11 >> 2);
         MessageDigest md = MessageDigest.getInstance("MD5");
         // 计算md5函数
-        md.update("1".getBytes());
+        md.update("2".getBytes());
         Map<String,Object> map2 = new HashMap<String, Object>();
         map.put("test",1);
 
         int  i = (int)map.get("test");
         System.out.println(i+"RRRRRRRRRRR");
 
-        System.out.println("##############"+new Md5Hash("1").toHex());
+        System.out.println("##############"+new Md5Hash("2").toHex());
     }
 }

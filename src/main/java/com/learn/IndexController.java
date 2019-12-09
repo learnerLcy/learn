@@ -1,7 +1,10 @@
 package com.learn;
 
+import com.learn.Constants.Constants;
+import com.learn.PoJo.Result;
 import com.learn.PoJo.customCenter.User;
 import com.learn.service.customCenter.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -10,11 +13,12 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * @ClassName:indexController
@@ -23,6 +27,7 @@ import java.util.List;
  * @Date:17:08
  **/
 @Controller
+@Slf4j
 @RequestMapping("/index")
 public class IndexController {
     @Autowired
@@ -55,26 +60,30 @@ public class IndexController {
     }
 
     @RequestMapping("/login")
-    public String login(HttpServletRequest request, HttpServletResponse response) {
-        response.setHeader("root", request.getContextPath());
-        String loginname = request.getParameter("loginname");
-        String password = request.getParameter("password");
+    @ResponseBody
+    public Result login(User user, HttpServletRequest request,HttpServletResponse response) {
+        String loginname = user.getLoginname();
+        String password = user.getPassword();
 
         // 1.获取Subject
         Subject subject = SecurityUtils.getSubject();
         // 2.封装用户数据
         UsernamePasswordToken token = new UsernamePasswordToken(loginname, password);
         // 3.执行登录方法
+        boolean flag = true;
+        String msg = "";
         try {
             subject.login(token);
             //return "redirect:/home";
         } catch (UnknownAccountException e) {
             e.printStackTrace();
-            request.setAttribute("msg", "用户名不存在！");
+            flag = false;
+            msg = Constants.unKnownLoginname;
         } catch (IncorrectCredentialsException e) {
-            request.setAttribute("msg", "密码错误！");
+            flag = false;
+            msg = Constants.incorrectCredentials;
         }
-        return "redirect:showIndexPage";
+        return new Result(flag,msg);
     }
 
     @RequestMapping("/logout")
@@ -83,7 +92,7 @@ public class IndexController {
         if (subject != null) {
             subject.logout();
         }
-        return "redirect:/main";
+        return "/login/login";
     }
 
     @RequestMapping("/error/unAuth")

@@ -20,12 +20,13 @@ import java.util.Map;
 public class ShiroConfig {
     @Bean("hashedCredentialsMatcher")
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
+
         HashedCredentialsMatcher credentialsMatcher =
                 new HashedCredentialsMatcher();
         //指定加密方式为MD5
         credentialsMatcher.setHashAlgorithmName("MD5");
         //加密次数
-        credentialsMatcher.setHashIterations(1024);
+        credentialsMatcher.setHashIterations(1);
         credentialsMatcher.setStoredCredentialsHexEncoded(true);
         return credentialsMatcher;
     }
@@ -84,8 +85,9 @@ public class ShiroConfig {
         filterMap.put("/layui/**","anon");
         filterMap.put("/jquery-3.3.1/**","anon");
         filterMap.put("/JsSequenceDiagrams/**","anon");
+        filterMap.put("/login/**","anon");
         /* 其他需要登陆认证 */
-        filterMap.put("/**","anon");
+        filterMap.put("/**","authc");
 
         bean.setFilterChainDefinitionMap(filterMap);
         return bean;

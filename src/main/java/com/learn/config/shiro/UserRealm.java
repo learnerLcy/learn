@@ -67,6 +67,7 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user.getLoginname(),
                 user.getPassword(),
+                ByteSource.Util.bytes(user.getSalt()),
                 getName());
         SecurityUtils.getSubject().getSession().setAttribute("CurrentUser",user);
         return authenticationInfo;
@@ -76,14 +77,16 @@ public class UserRealm extends AuthorizingRealm {
     // 模拟Shiro用户加密，假设用户密码为123456
     public static void main(String[] args){
         // 用户名
-        String username = "rhine";
+        String username = "2";
         // 用户密码
-        String password = "123456";
+        String password = "2";
+        // 用户密码
+        String salt = "2";
         // 加密方式
         String hashAlgorithName = "MD5";
         // 加密次数
-        int hashIterations = 1024;
-        ByteSource credentialsSalt = ByteSource.Util.bytes(username);
+        int hashIterations = 1;
+        ByteSource credentialsSalt = ByteSource.Util.bytes(salt);
         Object obj = new SimpleHash(hashAlgorithName, password,
                 credentialsSalt, hashIterations);
         System.out.println(obj);
