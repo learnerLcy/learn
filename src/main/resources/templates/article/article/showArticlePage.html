@@ -36,42 +36,47 @@ $(function () {
         ,{fixed: 'right', title:'操作', toolbar: '#operateBar', width:150} //操作栏
     ]];
     //监听锁定操作
-    layui.form.on('checkbox(lockArticleFlag)', function(obj){
-        var articleFlag =obj.elem.checked?"1":"0";
-        var title = obj.elem.checked?"发布":"取消发布";
-        $.post("${rc.contextPath}/article/editArticle",{id:this.value ,articleFlag:articleFlag},function(data){
-            if(data.success){
-                layer.msg(title+"成功");
-            }else{
-                layer.msg(title+"失败");
-            }
-        },"json");
+    layui.use(['form','layer'], function(){
+        layui.form.on('checkbox(lockArticleFlag)', function(obj){
+            var articleFlag =obj.elem.checked?"1":"0";
+            var title = obj.elem.checked?"发布":"取消发布";
+            $.post("${rc.contextPath}/article/editArticle",{id:this.value ,articleFlag:articleFlag},function(data){
+                if(data.success){
+                    layer.msg(title+"成功");
+                }else{
+                    layer.msg(title+"失败");
+                }
+            },"json");
+        });
     });
-    ptable.createTable("#articleTable",'${rc.contextPath}/article/getArticleList','#articleToolbar','文章',cols);
+
+    ptable.createTable("#articleTable",'${rc.contextPath}/article/getArticleList','#articleToolbar','文章',cols,afterTableLoadSuccess);
     //头工具栏事件
-    ptable.table.on('toolbar(test)', function(obj){
-        var checkStatus = ptable.table.checkStatus(obj.config.id);
-        switch(obj.event){
-            case 'addArticle':
-                addArticle();
-                break;
-            case 'delArticle':
-                delArticle();
-                break;
-        };
-    });
-    //监听行工具事件
-    ptable.table.on('tool(test)', function(obj){
-        var data = obj.data;
-        if(obj.event === 'del'){
-            layer.confirm('真的删除该文章吗？', function(index){
-                deleteArticle(obj);
-                layer.close(index);
-            });
-        } else if(obj.event === 'edit'){
-            editArticle(obj);
-        }
-    });
+    function afterTableLoadSuccess(){
+        ptable.table.on('toolbar(test)', function(obj){
+            var checkStatus = ptable.table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'addArticle':
+                    addArticle();
+                    break;
+                case 'delArticle':
+                    delArticle();
+                    break;
+            };
+        });
+        //监听行工具事件
+        ptable.table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除该文章吗？', function(index){
+                    deleteArticle(obj);
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                editArticle(obj);
+            }
+        });
+    }
 })
 //添加事件
 function addArticle(){

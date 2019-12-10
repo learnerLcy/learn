@@ -128,34 +128,36 @@
             });
         }
         //图片上传
-        var upload = layui.upload;
-        upload.render({
-            elem: '#img'
-            , auto: false
-            , url: "/file/fileUpload_MongoDB" //必填项
-            , method: ''  //可选项。HTTP类型，默认post
-            , multiple: true
-            , accept: 'images'
-            , acceptMime: 'image/!*'
-            , data: {type: "img_sy"} //可选项。额外的参数，如：{id: 123, abc: 'xxx'}
-            , bindAction: '#upload'
-            , done: function(res){
-                loadFiles();
-                layer.msg(res.msg,{icon:6,area:['120px','80px'],anim:2});
-            }
-            , choose: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
-                //预读本地文件示例，不支持ie8
-                obj.preview(function(index, file, result){
-                    $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img" id="remove_' + index + '" title="双击删除该图片" upload="false">')
-                    $('#remove_' + index).bind('dblclick', function () {//双击删除指定预上传图片
-                        $(this).remove();
-                        layer.msg("删除成功",{icon:6,area:['120px','80px'],anim:2});
-                    })
-                    /*$('#remove_' + index).bind('click', function () {//双击删除指定预上传图片
-                        renderImg();
-                    })*/
-                });
-            }
+        layui.use(['upload'], function(){
+            var upload = layui.upload;
+            upload.render({
+                elem: '#img'
+                , auto: false
+                , url: "/file/fileUpload_MongoDB" //必填项
+                , method: ''  //可选项。HTTP类型，默认post
+                , multiple: true
+                , accept: 'images'
+                , acceptMime: 'image/!*'
+                , data: {type: "img_sy"} //可选项。额外的参数，如：{id: 123, abc: 'xxx'}
+                , bindAction: '#upload'
+                , done: function(res){
+                    loadFiles();
+                    layer.msg(res.msg,{icon:6,area:['120px','80px'],anim:2});
+                }
+                , choose: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function(index, file, result){
+                        $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img" id="remove_' + index + '" title="双击删除该图片" upload="false">')
+                        $('#remove_' + index).bind('dblclick', function () {//双击删除指定预上传图片
+                            $(this).remove();
+                            layer.msg("删除成功",{icon:6,area:['120px','80px'],anim:2});
+                        })
+                        /*$('#remove_' + index).bind('click', function () {//双击删除指定预上传图片
+                            renderImg();
+                        })*/
+                    });
+                }
+            });
         });
 
         function loadFiles() {

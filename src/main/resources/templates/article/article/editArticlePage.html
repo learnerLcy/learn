@@ -79,8 +79,8 @@
                     $("#html").val(md_edit.getHTML());
                     $("#formBlog").ajaxSubmit({
                         success : function(data) {
-                            if(data.success){
-                                layui.layer.confirm("保存成功", function (index) {
+                            if (data.success) {
+                                layer.confirm("保存成功", function (index) {
                                     window.location.href = "${rc.contextPath}/article/showArticlePage";
                                 });
                             }

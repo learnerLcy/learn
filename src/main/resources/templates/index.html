@@ -98,14 +98,16 @@
         </div>
     </div>
     <script src="${rc.contextPath}/jquery-3.3.1/jquery-3.3.1.min.js"></script>
-    <script src="${rc.contextPath}/layui/layui.all.js"></script>
+    <script src="${rc.contextPath}/layui/layui.js"></script>
     <script src="${rc.contextPath}/common/index.js"></script>
     <script src="${rc.contextPath}/common/websocket.js"></script>
+    <script src="${rc.contextPath}/common/layim.js"></script>
     <script>
         //JavaScript代码区域
         $(function () {
-            //加载导航栏
+            //加载导航栏:index.js
             innitLeftTree();
+            //设置iframe的height
             var H = $(window).height() - $(".layui-footer").height();
             $("iframe").css("height", H + "px");
         })

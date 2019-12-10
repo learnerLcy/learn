@@ -31,31 +31,33 @@ $(function () {
         ,{field: 'roleTypeName', title: '启用状态'}
         ,{fixed: 'right', title:'操作', toolbar: '#operateBar', width:150} //操作栏
     ]];
-    ptable.createTable("#articleTable",'${rc.contextPath}/role/getRoleList','#roleToolbar','角色',cols);
+    ptable.createTable("#articleTable",'${rc.contextPath}/role/getRoleList','#roleToolbar','角色',cols,afterTableLoadSuccess);
     //头工具栏事件
-    ptable.table.on('toolbar(test)', function(obj){
-        var checkStatus = ptable.table.checkStatus(obj.config.id);
-        switch(obj.event){
-            case 'addRole':
-                addRole();
-                break;
-            case 'delRole':
-                delRole();
-                break;
-        };
-    });
-    //监听行工具事件
-    ptable.table.on('tool(test)', function(obj){
-        var data = obj.data;
-        if(obj.event === 'del'){
-            layer.confirm('真的删除该角色吗？', function(index){
-                deleteRole(obj);
-                layer.close(index);
-            });
-        } else if(obj.event === 'edit'){
-            editRole(obj);
-        }
-    });
+    function afterTableLoadSuccess(){
+        ptable.table.on('toolbar(test)', function(obj){
+            var checkStatus = ptable.table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'addRole':
+                    addRole();
+                    break;
+                case 'delRole':
+                    delRole();
+                    break;
+            };
+        });
+        //监听行工具事件
+        ptable.table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除该角色吗？', function(index){
+                    deleteRole(obj);
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                editRole(obj);
+            }
+        });
+    }
 })
 //添加事件
 function addRole(){

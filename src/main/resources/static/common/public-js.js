@@ -1,4 +1,8 @@
 //layer弹窗方法
+var layer;
+layui.use(['layer'], function(){
+    layer=layui.layer;
+});
 function openLayer(title, url, w, h) {
     if (title == null || title == '') {
         title = false;
@@ -45,7 +49,7 @@ var ptable = {
     , limit: 30                //每页默认显示的数量
     , totalRow: true           //开启合并汇总 ,totalRowText: '合计'，显示汇总名称，totalRow: true,是否汇总项
     , cols: null
-    , createTable: function (id, dataurl, toolbar, title, colsarray) {
+    , createTable: function (id, dataurl, toolbar, title, colsarray,callBackFunction) {
         ptable.elem = id;
         ptable.url = dataurl;
         ptable.toolbar = toolbar;
@@ -66,6 +70,12 @@ var ptable = {
                 , limit: ptable.limit               //每页默认显示的数量
                 , totalRow: ptable.totalRow           //开启合并汇总 ,totalRowText: '合计'，显示汇总名称，totalRow: true,是否汇总项
                 , cols: ptable.cols
+                ,done: function () {
+                    if(callBackFunction!=null){
+                        callBackFunction();
+                    }
+                    layer.closeAll('loading');
+                }
             });
         })
     }
