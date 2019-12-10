@@ -80,7 +80,18 @@ public class ShiroConfig {
         //filterMap.put("/user/index","authc");
         //filterMap.put("/vip/index","roles[vip]");
 
-        /* 不能直接写/static/**,会被拦截 */
+        /* 不能直接写/static/**,会被拦截
+            原因：SpringBoot 的 @EnableAutoConfiguration 会启用自动配置类 WebMvcAutoConfiguration，该类配置了一些默认的静态资源映射
+            自动映射 localhost:8080/** 为以下路径
+                    classpath:/resources/
+                    classpath:/static/
+                    classpath:/public/
+                    classpath:/META-INF/resources/
+                    自动映射 localhost:8080/webjars/** 为以下路径
+                    classpath:/META-INF/resources/webjars/
+
+           也就是说本来的http://localhost:8080/static/css/main.css 需要改成 http://localhost:8080/css/main.css才可以访问,所以static/**会被拦截
+        */
         filterMap.put("/common/**","anon");
         filterMap.put("/layui/**","anon");
         filterMap.put("/jquery-3.3.1/**","anon");
