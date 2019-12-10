@@ -271,7 +271,6 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
                 content: i,
                 success: function (i) {
                     x = i, R(i), j.base.right && i.css("margin-left", "-" + j.base.right), b && t.close(b.attr("times"));
-                    console.log(i.parent());
                     var a = [],
                         n = i.find(".layim-list-history");
                     n.find("li").each(function () {
@@ -316,16 +315,6 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
             });
             //好友右键
             x.parent().find(".layim-list-friend").on("contextmenu", ".layui-layim-list li", function (a) {
-                console.log('=============');
-                console.log(i);
-                console.log(n);
-                console.log(x);
-                console.log(x.find(".layim-list-friend"));
-                console.log(x.find(".layim-list-group"));
-                console.log(x.find(".layim-members-list"));
-
-                console.log('=============');
-
                 var n = e(this),
                     l = '<ul data-id="' + n[0].id + '" data-index="' + n.data("index") +
                         '"><li layim-event="menuDeleteFriend" data-type="one">删除好友</li><li layim-event="menuInviteToGroup" data-type="one">邀请入群</li></ul>';
@@ -347,7 +336,7 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
             x.find(".layim-list-group").on("contextmenu", "li", function (a) {
                 var n = e(this),
                     l = '<ul data-id="' + n[0].id + '" data-index="' + n.data("index") +
-                        '"><li layim-event="menuOutGroup" data-type="one">退出群聊</li><li layim-event="menuCreateGroup" data-type="one">创建群聊</li></ul>';
+                        '"><li layim-event="menuOutGroup" data-type="one">退出群聊</li></ul>';
                 n.hasClass("layim-null") || (t.tips(l, this, {
                     tips: 1,
                     time: 0,
@@ -364,7 +353,6 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
             });
             //群成员右键
             x.parent().find(".layui-layim-chat").on("contextmenu", ".layim-tool-face", function (a) {
-                console.log('右键');
                 var n = e(this),
                     l = '<ul data-id="' + n[0].id + '" data-index="' + n.data("index") +
                         '"><li layim-event="menuKickOutMember" data-type="one">踢出成员</li></ul>';
@@ -1171,7 +1159,7 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
                         skin: "layui-box",
                         anim: 2,
                         id: "layui-layim-chatlog",
-                        content: j.base.chatLog + "?id=" + a.data.id + "&type=" + a.data.type
+                        content: j.base.chatLog + "&id=" + a.data.id + "&type=" + a.data.type
                     })) : t.msg("未开启更多聊天记录")
             },
             menuHistory: function (i, a) {
@@ -1202,16 +1190,12 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
                     d = '<li class="layim-null">暂无历史会话</li>';
                 var username = l.data('index');
                 username = username.substring(0, username.indexOf(','));
-
                 /* ----------------------------------------------------------------------------------------- */
                 myAjax();
                 function myAjax() {
                     var XMLHttp = new XMLHttpRequest();
                     XMLHttp.onreadystatechange = function () {
                         if (XMLHttp.readyState == 4 && (XMLHttp.status == 200 || XMLHttp.status == 0)) {
-                            var result = XMLHttp.responseText;
-                            //$('.layui-layer-page').remove();
-                            //document.getElementsByClassName(".layui-layer-page").remove();
                             var paras = document.getElementsByClassName('layui-layer-page');
                             for (i = 0; i < paras.length; i++) {
                                 //删除元素 元素.parentNode.removeChild(元素);
@@ -1219,11 +1203,10 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
                                     paras[i].parentNode.removeChild(paras[i]);
                             }
                             loadIm(false);
-                            layer.msg(JSON.parse(result).data);
                         }
                     };
-
-                    XMLHttp.open("post", '/op/deleteRoster', false);
+                    var uid = getQueryString("__uid");
+                    XMLHttp.open("post", '/openfire/deleteRoster?__uid='+uid, true);
                     XMLHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     XMLHttp.send("friendName=" + username);
                 }
@@ -1240,10 +1223,11 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
                     d = '<li class="layim-null">暂无历史会话</li>';
                 var username = l.data('index');
                 username = username.substring(0, username.indexOf(','));
+                var uid = getQueryString("__uid");
                 var index = layer.open({
                     type: 2,
                     title: '加群',
-                    content: '/op/inviteToGroupPage?userName=' + username,
+                    content: '/openfire/inviteToChatRoomPage?userName='+username+'&__uid=' + uid,
                     area: ['450px', '400px'],
                     maxmin: true,
                     shade: 0,
@@ -1277,9 +1261,6 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
                     var XMLHttp = new XMLHttpRequest();
                     XMLHttp.onreadystatechange = function () {
                         if (XMLHttp.readyState == 4 && (XMLHttp.status == 200 || XMLHttp.status == 0)) {
-                            var result = XMLHttp.responseText;
-                            //$('.layui-layer-page').remove();
-                            //document.getElementsByClassName(".layui-layer-page").remove();
                             var paras = document.getElementsByClassName('layui-layer-page');
                             for (i = 0; i < paras.length; i++) {
                                 //删除元素 元素.parentNode.removeChild(元素);
@@ -1287,11 +1268,10 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
                                     paras[i].parentNode.removeChild(paras[i]);
                             }
                             loadIm(false);
-                            layer.msg(JSON.parse(result).data);
                         }
                     };
-
-                    XMLHttp.open("post", '/op/quitChatRoom', false);
+                    var uid = getQueryString("__uid");
+                    XMLHttp.open("post", '/openfire/quitChatRoom?__uid='+uid, false);
                     XMLHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     XMLHttp.send("userName=" + [j.mine.id] + "&roomId=" + roomid);
                 }
@@ -1308,10 +1288,6 @@ layui.define(["layer", "laytpl", "upload"], function (i) {
                     d = '<li class="layim-null">暂无历史会话</li>';
                 var roomid = l.data('index');
                 roomid = roomid.substring(0, roomid.indexOf(','));
-                console.log("mine.id")
-                console.log([j.mine.id]);
-                console.log([j.mine]);
-                console.log([j]);
                 /* -----------------------------------------------------------------------------------------
                  myAjax();
                  function myAjax() {
