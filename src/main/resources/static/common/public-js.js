@@ -239,3 +239,17 @@ $.fn.serializeObject=function(){
         return data;
     },{});
 };
+/*獲取font_family_extend*/
+var font_family_extend ;
+var prefix;
+function loadProperties(){
+    jQuery.i18n.properties({// 加载properties文件
+        name:'layui_extend', // properties文件名称
+        path:'/layui_extend', // properties文件路径
+        mode:'map', // 用 Map 的方式使用资源文件中的值
+        callback: function() {// 加载成功后设置显示内容
+            font_family_extend = $.i18n.prop("font_family_extend");
+            prefix = $.i18n.prop("prefix");
+        }
+    });
+}

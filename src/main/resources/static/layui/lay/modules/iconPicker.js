@@ -3,7 +3,6 @@
  * @author wujiawei0926@yeah.net
  * @version 1.1
  */
-
 layui.define(['laypage', 'form'], function (exports) {
     "use strict";
 
@@ -20,6 +19,7 @@ layui.define(['laypage', 'form'], function (exports) {
     /**
      * 渲染组件
      */
+    loadProperties();
     IconPicker.prototype.render = function(options){
         var opts = options,
             // DOM选择器
@@ -40,6 +40,8 @@ layui.define(['laypage', 'form'], function (exports) {
             success = opts.success,
             // json数据
             data = {},
+            // 自己添加的icon图标的json数据
+            dataExtend = {},
             // 唯一标识
             tmp = new Date().getTime(),
             // 是否使用的class数据
@@ -58,6 +60,7 @@ layui.define(['laypage', 'form'], function (exports) {
         var a = {
             init: function () {
                 data = common.getData[type]();
+                dataExtend = common.getDataExtend[type]();
 
                 a.hideElem().createSelect().createBody().toggleSelect();
                 a.preventEvent().inputListen();
@@ -73,6 +76,7 @@ layui.define(['laypage', 'form'], function (exports) {
                 var d = {
                     options: opts,
                     data: data,
+                    dataExtend : dataExtend,
                     id: tmp,
                     elem: $('#' + ICON_BODY)
                 };
@@ -101,7 +105,11 @@ layui.define(['laypage', 'form'], function (exports) {
                 }
 
                 if (isFontClass) {
-                    oriIcon = '<i class="layui-icon '+ ORIGINAL_ELEM_VALUE +'">';
+                    if (ORIGINAL_ELEM_VALUE.indexOf(prefix) > -1){
+                        oriIcon = '<i class="'+font_family_extend+" "+ORIGINAL_ELEM_VALUE +'">';
+                    }else{
+                        oriIcon = '<i class="layui-icon '+ ORIGINAL_ELEM_VALUE +'">';
+                    }
                 } else {
                     oriIcon += ORIGINAL_ELEM_VALUE; 
                 }
@@ -209,6 +217,32 @@ layui.define(['laypage', 'form'], function (exports) {
                     icons.push(icon);
                 }
 
+               for (var i = 0; i < dataExtend.length; i++) {
+                    var obj = dataExtend[i];
+
+                    // 判断是否模糊查询
+                    if (text && obj.indexOf(text) === -1) {
+                        continue;
+                    }
+
+                    // 是否自定义格子宽度
+                    var style = '';
+                    if (cellWidth !== null) {
+                        style += ' style="width:' + cellWidth + '"';
+                    }
+
+                    // 每个图标dom
+                    var icon = '<div class="layui-iconpicker-icon-item" title="'+ obj +'" '+ style +'>';
+                    if (isFontClass){
+                        icon += '<i class="'+font_family_extend+" "+ obj +'"></i>';
+                    } else {
+                        icon += '<i class='+font_family_extend +'></i>'+ obj.replace('amp;', '') +'</i>';
+                    }
+                    icon += '</div>';
+
+                    icons.push(icon);
+                }
+
                 // 查询出图标后再分页
                 l = icons.length;
                 _pages = l % _limit === 0 ? l / _limit : parseInt(l / _limit + 1);
@@ -308,15 +342,20 @@ layui.define(['laypage', 'form'], function (exports) {
                 a.event('click', item, function (e) {
                     var el = $(e.currentTarget).find('.layui-icon'),
                         icon = '';
+                    if(el.length==0){
+                        el = $(e.currentTarget).find('.'+font_family_extend);
+                    }
                     if (isFontClass) {
                         var clsArr = el.attr('class').split(/[\s\n]/),
                             cls = clsArr[1],
                             icon = cls;
                         $('#' + TITLE_ID).find('.layui-iconpicker-item .layui-icon').html('').attr('class', clsArr.join(' '));
+                        $('#' + TITLE_ID).find('.layui-iconpicker-item .'+font_family_extend).html('').attr('class', clsArr.join(' '));
                     } else {
                         var cls = el.html(),
                             icon = cls;
                         $('#' + TITLE_ID).find('.layui-iconpicker-item .layui-icon').html(icon);
+                        $('#' + TITLE_ID).find('.layui-iconpicker-item .'+font_family_extend).html(icon);
                     }
 
                     $('#' + ICON_BODY).removeClass(selected).addClass(unselect);
@@ -369,6 +408,18 @@ layui.define(['laypage', 'form'], function (exports) {
                 unicode: function () {
                     return ["&amp;#xe6c9;","&amp;#xe67b;","&amp;#xe67a;","&amp;#xe678;","&amp;#xe679;","&amp;#xe677;","&amp;#xe676;","&amp;#xe675;","&amp;#xe673;","&amp;#xe66f;","&amp;#xe9aa;","&amp;#xe672;","&amp;#xe66b;","&amp;#xe668;","&amp;#xe6b1;","&amp;#xe702;","&amp;#xe66e;","&amp;#xe68e;","&amp;#xe674;","&amp;#xe669;","&amp;#xe666;","&amp;#xe66c;","&amp;#xe66a;","&amp;#xe667;","&amp;#xe7ae;","&amp;#xe665;","&amp;#xe664;","&amp;#xe716;","&amp;#xe656;","&amp;#xe653;","&amp;#xe663;","&amp;#xe6c6;","&amp;#xe6c5;","&amp;#xe662;","&amp;#xe661;","&amp;#xe660;","&amp;#xe65d;","&amp;#xe65f;","&amp;#xe671;","&amp;#xe65e;","&amp;#xe659;","&amp;#xe735;","&amp;#xe756;","&amp;#xe65c;","&amp;#xe715;","&amp;#xe705;","&amp;#xe6b2;","&amp;#xe6af;","&amp;#xe69c;","&amp;#xe698;","&amp;#xe657;","&amp;#xe65b;","&amp;#xe65a;","&amp;#xe681;","&amp;#xe67c;","&amp;#xe601;","&amp;#xe857;","&amp;#xe655;","&amp;#xe770;","&amp;#xe670;","&amp;#xe63d;","&amp;#xe63e;","&amp;#xe654;","&amp;#xe652;","&amp;#xe651;","&amp;#xe6fc;","&amp;#xe6ed;","&amp;#xe688;","&amp;#xe645;","&amp;#xe64f;","&amp;#xe64e;","&amp;#xe64b;","&amp;#xe62b;","&amp;#xe64d;","&amp;#xe64a;","&amp;#xe64c;","&amp;#xe650;","&amp;#xe649;","&amp;#xe648;","&amp;#xe647;","&amp;#xe646;","&amp;#xe644;","&amp;#xe62a;","&amp;#xe643;","&amp;#xe63f;","&amp;#xe642;","&amp;#xe641;","&amp;#xe640;","&amp;#xe63c;","&amp;#xe63b;","&amp;#xe63a;","&amp;#xe639;","&amp;#xe638;","&amp;#xe637;","&amp;#xe636;","&amp;#xe635;","&amp;#xe634;","&amp;#xe633;","&amp;#xe632;","&amp;#xe631;","&amp;#xe630;","&amp;#xe62f;","&amp;#xe62e;","&amp;#xe62d;","&amp;#xe62c;","&amp;#xe629;","&amp;#xe628;","&amp;#xe625;","&amp;#xe623;","&amp;#xe621;","&amp;#xe620;","&amp;#xe61f;","&amp;#xe61c;","&amp;#xe60b;","&amp;#xe619;","&amp;#xe61a;","&amp;#xe603;","&amp;#xe602;","&amp;#xe617;","&amp;#xe615;","&amp;#xe614;","&amp;#xe613;","&amp;#xe612;","&amp;#xe611;","&amp;#xe60f;","&amp;#xe60e;","&amp;#xe60d;","&amp;#xe60c;","&amp;#xe60a;","&amp;#xe609;","&amp;#xe605;","&amp;#xe607;","&amp;#xe606;","&amp;#xe604;","&amp;#xe600;","&amp;#xe658;","&amp;#x1007;","&amp;#x1006;","&amp;#x1005;","&amp;#xe608;"];
                 }
+            },
+            /**
+             * 获取layui之外的icon数据
+             */
+            getDataExtend: {
+                fontClass: function () {
+                    var arr = ["layui-extend-shouye"];
+                    return arr;
+                },
+                unicode: function () {
+                    return ["&amp;#xe62b"];
+                }
             }
         };
 
@@ -385,11 +436,17 @@ layui.define(['laypage', 'form'], function (exports) {
         var el = $('*[lay-filter='+ filter +']'),
             p = el.next().find('.layui-iconpicker-item .layui-icon'),
             c = iconName;
-
+        if(p.length==0){
+            p = el.next().find('.layui-iconpicker-item .'+font_family_extend);
+        }
         if (c.indexOf('#xe') > 0){
             p.html(c);
         } else {
-            p.html('').attr('class', 'layui-icon ' + c);
+            if (c.indexOf(prefix) > -1){
+                p.html('').attr('class', font_family_extend+' '+ c);
+            }else{
+                p.html('').attr('class', 'layui-icon ' + c);
+            }
         }
         el.attr('value', c).val(c);
     };
