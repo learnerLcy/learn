@@ -1,5 +1,6 @@
 package com.learn.config.shiro;
 
+import com.learn.Constants.Constants;
 import com.learn.PoJo.customCenter.User;
 import com.learn.PoJo.customCenter.UserRole;
 import com.learn.service.customCenter.UserRoleService;
@@ -69,7 +70,7 @@ public class UserRealm extends AuthorizingRealm {
                 user.getPassword(),
                 ByteSource.Util.bytes(user.getSalt()),
                 getName());
-        SecurityUtils.getSubject().getSession().setAttribute("CurrentUser",user);
+        SecurityUtils.getSubject().getSession().setAttribute(Constants.SESSION_LOGINUSER,user);
         return authenticationInfo;
     }
 

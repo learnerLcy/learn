@@ -7,7 +7,10 @@ package com.learn.Constants;
  * @Date:17:15
  **/
 public class Constants {
+    //shiro人員session的key名稱
+    public static String SESSION_LOGINUSER = "CurrentUser";
 
+    //頂級id
     public static String ROOT = "ROOT";
     /*登陆提示信息*/
     public static String unKnownLoginname = "用户不存在";

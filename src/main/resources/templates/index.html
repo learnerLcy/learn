@@ -6,7 +6,7 @@
     <title>learn by lcy</title>
     <#include "/importFile.html"/>
     <style>
-        .layui-nav-item i{
+        .layui-nav-item .menu{
             margin-right: 10px;
         }
     </style>
@@ -56,8 +56,8 @@
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                        贤心
+                        <img src="" class="layui-nav-img" id="personalImg">
+                        ${CurrentUser.username!''}
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
@@ -103,10 +103,26 @@
         $(function () {
             //加载导航栏:index.js
             innitLeftTree();
+            //加載個人頭像
+            loadPersonalImg();
             //设置iframe的height
             var H = $(window).height() - $(".layui-footer").height();
             $("iframe").css("height", H + "px");
         })
+
+        //加载头像
+        function loadPersonalImg() {
+            $.ajax({
+                type: "Post",
+                url: "/personal/getPersonalmg",   //ajax请求地址
+                success: function (data) {
+                    $("#personalImg").attr("src","data:image/png;base64,"+data.fileByte);
+                    $("#personalImg").attr("alt",data.fileName);
+                },
+                error:function (data) {
+                }
+            });
+        }
     </script>
 </body>
 </html>

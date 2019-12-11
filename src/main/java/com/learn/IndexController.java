@@ -12,6 +12,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,23 +35,17 @@ public class IndexController {
     private UserService userService;
 
 
-    @RequestMapping("/showIndexPage")
-    public String showIndexPage(){
-        return "index";
+    @GetMapping("/showIndexPage")
+    public ModelAndView showIndexPage(ModelAndView mv){
+        mv.addObject(Constants.SESSION_LOGINUSER,(User)SecurityUtils.getSubject().getSession().getAttribute(Constants.SESSION_LOGINUSER));
+        mv.setViewName("/index");
+        return mv;
     }
 
     @RequestMapping("/showHomePage")
     public ModelAndView showHomePage(ModelAndView mv){
         mv.setViewName("/home");
         return mv;
-    }
-
-
-
-    @RequestMapping("/main")
-    public String index(HttpServletRequest request, HttpServletResponse response) {
-        response.setHeader("root", request.getContextPath());
-        return "index";
     }
 
     @RequestMapping("/toLogin")

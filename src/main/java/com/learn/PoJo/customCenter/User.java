@@ -20,4 +20,5 @@ public class User {
     private String sex;
     private String tel;
     private String mail;
+    private String username;
 }

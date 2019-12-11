@@ -207,12 +207,12 @@ layui.use('element', function() {
 function getFontFamily(menuIcon) {
     var fontFamily;
     if(menuIcon==""){
-        return '<i class="layui-icon"></i>';
+        return '<i class="layui-icon menu"></i>';
     }
     if(menuIcon.indexOf(prefix)>-1){
         fontFamily = font_family_extend;
     }else{
         fontFamily = "layui-icon";
     }
-    return '<i class="'+fontFamily+" "+ menuIcon +'"></i>';
+    return '<i class="'+fontFamily+" menu "+ menuIcon +'"></i>';
 }

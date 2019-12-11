@@ -1,5 +1,6 @@
 package com.learn.service.customCenter.impl;
 
+import com.learn.Constants.Constants;
 import com.learn.PoJo.Result;
 import com.learn.PoJo.customCenter.User;
 import com.learn.PoJo.customCenter.UserRole;
@@ -10,6 +11,7 @@ import com.learn.service.BaseServiceImpl;
 import com.learn.service.customCenter.UserService;
 import com.learn.utils.CommonConstant;
 import com.learn.utils.CommonUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Condition;
@@ -64,7 +66,9 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements Use
             userRole.setUserRoleId(CommonUtils.get32Uuid());
             userRoleMapper.insert(userRole);
         }
-        return defaultOperate(updateByPrimaryKeySelective(user), CommonConstant.UPDATE_CH);
+        Result result = defaultOperate(updateByPrimaryKeySelective(user), CommonConstant.UPDATE_CH);
+        SecurityUtils.getSubject().getSession().setAttribute(Constants.SESSION_LOGINUSER,selectByPrimaryKey(user.getUserId()));
+        return result;
     }
 
     @Override
