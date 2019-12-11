@@ -242,6 +242,7 @@ $.fn.serializeObject=function(){
 /*獲取font_family_extend*/
 var font_family_extend ;
 var prefix;
+loadProperties();
 function loadProperties(){
     jQuery.i18n.properties({// 加载properties文件
         name:'layui_extend', // properties文件名称

@@ -19,7 +19,6 @@ layui.define(['laypage', 'form'], function (exports) {
     /**
      * 渲染组件
      */
-    loadProperties();
     IconPicker.prototype.render = function(options){
         var opts = options,
             // DOM选择器

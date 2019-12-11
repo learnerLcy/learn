@@ -40,11 +40,13 @@ function innitLeftTree(){
         success:function(data) {
             if(data.success ==true ){
                 var html = "";
-                var oriIcon = '<i class="layui-icon"></i>';
+                //var oriIcon = '<i class="layui-icon"></i>';
+                var oriIcon = getFontFamily("");
                 $.each(data.data, function(i,item){
                     var chrildrenList = item.chrildrenList;
                     var menuUrl = item.menuUrl==null||item.menuUrl==""?"javascript:;":item.menuUrl;
-                    oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+                    //oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+                    oriIcon = getFontFamily(item.menuIcon );
                     /*layui-nav-itemed*/
                     //一級目錄包含下級節點
                     if(chrildrenList!=null){
@@ -55,7 +57,8 @@ function innitLeftTree(){
                                 html += eachChrildLeftTree(item,"");
                             }else{//二級子菜單沒有下級節點
                                 menuUrl = item.menuUrl==null||item.menuUrl==""?"javascript:;":item.menuUrl;
-                                oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+                                //oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+                                oriIcon = getFontFamily(item.menuIcon );
                                 html += " <dd><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
                             }
                         });
@@ -84,12 +87,14 @@ function innitLeftTree(){
 function eachChrildLeftTree(item,html){
     var html = "";
     var menuUrl = item.menuUrl==null||item.menuUrl==""?"javascript:;":item.menuUrl;
-    var oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+    //var oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+    var oriIcon = getFontFamily(item.menuIcon );
     if(item.chrildrenList!=null){
         html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
         html += " <dl class='layui-nav-child'>";
         $.each(item.chrildrenList, function(i,item){
-            oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+            //oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+            oriIcon = getFontFamily(item.menuIcon );
             if(item.chrildrenList!=null){
                 html += "<li class='layui-nav-item'><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
                 html += " <dl class='layui-nav-child'>";
@@ -97,7 +102,8 @@ function eachChrildLeftTree(item,html){
                     if(item.chrildrenList!=null){
                         html += eachChrildLeftTree(item,html);
                     }else{
-                        oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+                        //oriIcon = '<i class="layui-icon '+ item.menuIcon +'"></i>';
+                        oriIcon = getFontFamily(item.menuIcon );
                         menuUrl = item.menuUrl==null||item.menuUrl==""?"javascript:;":item.menuUrl;
                         html += " <dd><a data-url='"+menuUrl+"' data-title='"+item.menuName+"' data-id='"+item.id+"' target='option' class='site-url'>"+oriIcon+"<cite>"+item.menuName+"</cite></a>";
                     }
@@ -197,3 +203,16 @@ layui.use('element', function() {
         iframeWH();
     });
 });
+/*獲取icon的font_family*/
+function getFontFamily(menuIcon) {
+    var fontFamily;
+    if(menuIcon==""){
+        return '<i class="layui-icon"></i>';
+    }
+    if(menuIcon.indexOf(prefix)>-1){
+        fontFamily = font_family_extend;
+    }else{
+        fontFamily = "layui-icon";
+    }
+    return '<i class="'+fontFamily+" "+ menuIcon +'"></i>';
+}
