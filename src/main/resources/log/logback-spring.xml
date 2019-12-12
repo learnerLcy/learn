@@ -171,6 +171,8 @@
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
         <logger name="com.learn.mapper" level="debug"/>
+        <logger name="org.activiti" level="ERROR" />
+        <logger name="org.activiti.engine.impl.persistence.entity" level="DEBUG" />
     </springProfile>
 
     <root level="info">
