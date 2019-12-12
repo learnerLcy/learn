@@ -92,10 +92,15 @@ public class ShiroConfig {
 
            也就是说本来的http://localhost:8080/static/css/main.css 需要改成 http://localhost:8080/css/main.css才可以访问,所以static/**会被拦截
         */
+
+        filterMap.put("/activiti/modeler.html","authc");
+        filterMap.put("/activiti/**","anon");
+
         filterMap.put("/common/**","anon");
-        filterMap.put("/layui/**","anon");
         filterMap.put("/jquery-3.3.1/**","anon");
         filterMap.put("/JsSequenceDiagrams/**","anon");
+        filterMap.put("/layui/**","anon");
+        filterMap.put("/layui_extend/**","anon");
         filterMap.put("/login/**","anon");
         /* 其他需要登陆认证 */
         filterMap.put("/**","authc");

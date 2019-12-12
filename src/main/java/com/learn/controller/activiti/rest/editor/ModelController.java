@@ -83,26 +83,36 @@ public class ModelController implements ModelDataJsonConstants {
         }
         return modelNode;
     }
-
+    /**
+    *@Author:lvchunyang
+    *@Description: 修改接收参数的方式,使用过程中发现直接使用values接收会接收不到值，引起报错
+    *@Date:16:55 2019/12/12
+    *@Para:[modelId, name, json_xml, svg_xml, description]
+    *@Return:void
+    **/
     @RequestMapping(value="/{modelId}/save", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
-    public void saveModel(@PathVariable String modelId, @RequestBody MultiValueMap<String, String> values) {
+    /*public void saveModel(@PathVariable String modelId, @RequestBody MultiValueMap<String, String> values) {*/
+    public void saveModel(@PathVariable String modelId, @RequestParam("name") String name,
+                          @RequestParam("json_xml") String json_xml,
+                          @RequestParam("svg_xml") String svg_xml,
+                          @RequestParam("description") String description) {//对接收参数修改
         try {
 
             Model model = repositoryService.getModel(modelId);
 
             ObjectNode modelJson = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
 
-            modelJson.put(MODEL_NAME, values.getFirst("name"));
-            modelJson.put(MODEL_DESCRIPTION, values.getFirst("description"));
+            modelJson.put(MODEL_NAME, name);
+            modelJson.put(MODEL_DESCRIPTION, description);
             model.setMetaInfo(modelJson.toString());
-            model.setName(values.getFirst("name"));
+            model.setName(name);
 
             repositoryService.saveModel(model);
 
-            repositoryService.addModelEditorSource(model.getId(), values.getFirst("json_xml").getBytes("utf-8"));
+            repositoryService.addModelEditorSource(model.getId(), json_xml.getBytes("utf-8"));
 
-            InputStream svgStream = new ByteArrayInputStream(values.getFirst("svg_xml").getBytes("utf-8"));
+            InputStream svgStream = new ByteArrayInputStream(svg_xml.getBytes("utf-8"));
             TranscoderInput input = new TranscoderInput(svgStream);
 
             PNGTranscoder transcoder = new PNGTranscoder();
@@ -202,7 +212,7 @@ public class ModelController implements ModelDataJsonConstants {
             //保存模型
             repositoryService.saveModel(modelData);
             repositoryService.addModelEditorSource(modelData.getId(), editorNode.toString().getBytes("utf-8"));
-            response.sendRedirect(request.getContextPath() + "/modeler.html?modelId=" + modelData.getId());
+            response.sendRedirect(request.getContextPath() + "/activiti/modeler.html?modelId=" + modelData.getId());
         }catch (Exception e){
         }
     }
@@ -231,13 +241,10 @@ public class ModelController implements ModelDataJsonConstants {
                 headers, statusCode);
         return entity;
     }
-    /**
-     * 跳转流程列表界面
-     * @return
-     */
-    @RequestMapping(value="/showModelPage")
-    public ModelAndView getPage(ModelAndView mv){
-        mv.setViewName("/model/showModelPage");
+
+    @RequestMapping(value="/showModelerPage")
+    public ModelAndView showModelerPage(ModelAndView mv){
+        mv.setViewName("/modeler");
         return mv;
     }
 }
