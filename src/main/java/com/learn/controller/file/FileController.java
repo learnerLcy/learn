@@ -62,7 +62,6 @@ public class FileController {
         String fileName = System.currentTimeMillis()+suffix;
 
         String path = request.getSession().getServletContext().getRealPath(fold);
-        System.out.println(path);
 
         File targetFile = new File(path);
         File uploadfile = new File(path+fileName);
